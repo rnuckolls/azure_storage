@@ -1,0 +1,3 @@
+$Db = Get-AzSqlDatabase -ResourceGroupName "ade-dev-eastus2" -ServerName "ade-dev-eastus2-sql" -DatabaseName "ade-dev-playerstats"
+Set-AzSqlDatabaseBackupShortTermRetentionPolicy -ResourceGroupName $Db.ResourceGroupName -ServerName $Db.ServerName -DatabaseName $Db.DatabaseName -RetentionDays 28
+Set-AzSqlDatabaseBackupLongTermRetentionPolicy -ResourceGroupName $Db.ResourceGroupName -ServerName $Db.ServerName -DatabaseName $Db.DatabaseName -WeeklyRetention 70 -MonthlyRetention P52W -YearlyRetention P2Y -WeekOfYear 1

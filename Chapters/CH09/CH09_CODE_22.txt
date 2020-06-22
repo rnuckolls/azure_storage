@@ -1,0 +1,3 @@
+USE DATABASE Players;
+REFERENCE ASSEMBLY [Newtonsoft.Json];
+REFERENCE ASSEMBLY [Microsoft.Analytics.Samples.Formats];

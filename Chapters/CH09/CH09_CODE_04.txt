@@ -1,0 +1,20 @@
+DROP ASSEMBLY IF EXISTS [ImageCommon];
+CREATE ASSEMBLY IF NOT EXISTS [ImageCommon]
+FROM @"/Code/Assemblies/master/cognition/v1/vision/common/ImageIO.dll"
+WITH ADDITIONAL_FILES = 
+     (
+         @"/Code/Assemblies/master/cognition/v1/vision/common/ImageCommon.dll",
+         @"/Code/Assemblies/master/cognition/v1/vision/common/FaceSdkManagedWrapper.dll",
+         @"/Code/Assemblies/master/cognition/v1/vision/common/libiomp5md.dll",
+         @"/Code/Assemblies/master/cognition/v1/vision/common/DetectionJDA.mdl",
+         @"/Code/Assemblies/master/cognition/v1/vision/common/version.cog.imgcommon"
+     );
+DROP ASSEMBLY IF EXISTS [ImageOcr];
+CREATE ASSEMBLY IF NOT EXISTS [ImageOcr]
+FROM @"/Code/Assemblies/master/cognition/v1/vision/ocr/ImageOCR.dll"
+WITH ADDITIONAL_FILES = (
+@"/Code/Assemblies/master/cognition/v1/vision/ocr/Microsoft.Ocr.dll",
+@"/Code/Assemblies/master/cognition/v1/vision/ocr/Microsoft.Ocr.xml",
+@"/Code/Assemblies/master/cognition/v1/vision/ocr/MsOcrRes.orp",
+@"/Code/Assemblies/master/cognition/v1/vision/ocr/version.cog.ocr"
+);

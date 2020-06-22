@@ -1,0 +1,13 @@
+{
+  "location":"EastUS2",
+  "properties":{
+    "sku":{
+      "name":"Standard"
+    },
+    "eventsOutOfOrderPolicy":"Adjust",
+    "outputErrorPolicy": "Stop", 
+    "eventsOutOfOrderMaxDelayInSeconds":0,
+    "eventsLateArrivalMaxDelayInSeconds":5,
+    "compatibilityLevel": 1.1
+  }
+}

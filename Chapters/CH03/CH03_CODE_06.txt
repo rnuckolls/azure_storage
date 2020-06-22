@@ -1,0 +1,2 @@
+$account = Get-AzStorageAccount -ResourceGroupName "ade-dev-eastus2" -AccountName "adedeveastus2"
+New-AzStorageQueue -Name "pitcherstats" -Context $account.Context

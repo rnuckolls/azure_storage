@@ -1,0 +1,14 @@
+WITH PitchAverage AS (
+SELECT Player, Node, AVG(NodeValue) AS AvgValue
+FROM HubsInputBiometrics TIMESTAMP BY EventTime
+WHERE Player = 'abera101' AND Node = 12 AND NodeValue > 80
+GROUP BY Player, Node, TumblingWindow(second, 150)
+)
+SELECT a.Player, a.NodeValue, b.AvgValue
+INTO SqlOutputPitcher
+FROM HubsInputBiometrics a TIMESTAMP BY EventTime
+INNER JOIN PitchAverage b
+ON a.Player = b.Player
+AND a.Node = b.Node
+AND DATEDIFF(second, a, b) BETWEEN 0 AND 150
+WHERE a.NodeValue > 80

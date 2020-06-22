@@ -1,0 +1,6 @@
+@rowset = EXTRACT
+    title string,
+    weight decimal,
+    color string
+    FROM @example
+    USING new JsonExtractor();

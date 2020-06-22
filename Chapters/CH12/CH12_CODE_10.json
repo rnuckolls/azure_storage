@@ -1,0 +1,21 @@
+{
+    "name": "AzureSqlDatabase1",
+    "type": "Microsoft.DataFactory/factories/linkedservices",
+    "properties": {
+        "annotations": [],
+        "type": "AzureSqlDatabase",
+        "typeProperties": {
+            "connectionString": "Data Source=ade-dev-eastus2-sql2.database.windows.net;Initial Catalog=ade-dev-sql2-gamestats;",
+            "servicePrincipalId": "d915e8ef-f61c-4eb1-82b5-b4b20f0a6190",
+            "servicePrincipalKey": {
+                "type": "AzureKeyVaultSecret",
+                "store": {
+                    "referenceName": "AzureKeyVault1",
+                    "type": "LinkedServiceReference"
+                },
+                "secretName": "ade-dev-eastus2-adf-id"
+            },
+            "tenant": "f41e678f-812a-43cf-b020-7c1f89e52901"
+        }
+    }
+}

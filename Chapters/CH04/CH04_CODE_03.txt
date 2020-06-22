@@ -1,0 +1,4 @@
+$SecureStringPassword = Read-Host -Prompt "Enter password" -AsSecureString
+$User = New-AzADUser -DisplayName "Tech User" -Password $SecureStringPassword -MailNickname "techuser" -UserPrincipalName "techuser@azuredomain.onmicrosoft.com"
+$Group = New-AzADGroup -DisplayName "Technical Operations" -MailNickname "TechOps"
+Add-AzADGroupMember -MemberObjectId $User.Id -TargetGroupObjectId $Group.Id

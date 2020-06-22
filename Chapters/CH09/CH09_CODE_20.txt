@@ -1,0 +1,10 @@
+@rowValues = SELECT
+    title AS Title,
+    JsonFunctions.JsonTuple(options) AS OptionValues,
+    JsonFunctions.JsonTuple(options)["size"] AS Size
+    FROM @rowset;
+@rowSubValues = SELECT
+    Title,
+    OptionValues["color"] AS Color,
+    Size
+    FROM @rowValues;

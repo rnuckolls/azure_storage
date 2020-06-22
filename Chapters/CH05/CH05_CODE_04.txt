@@ -1,0 +1,1 @@
+New-AzEventHub -ResourceGroupName "ade-dev-eastus2" -NamespaceName "ade-dev-eastus2-hubs" -Name "biometricstats" -MessageRetentionInDays 1 -PartitionCount 2

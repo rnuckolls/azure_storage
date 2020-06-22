@@ -1,0 +1,3 @@
+$Blob = "https://adedeveastus2sql.blob.core.windows.net/backups/playerstats_2020_02_02.bacpac"
+$Key = (Get-AzStorageAccountKey -ResourceGroupName "ade-dev-eastus2" -Name "adedeveastus2sql").Value[0]
+New-AzSqlDatabaseExport -ResourceGroupName "ade-dev-eastus2" -ServerName "ade-dev-eastus2-sql" -DatabaseName "Playerstats" -StorageKeyType "StorageAccessKey" -StorageKey $Key -StorageUri $Blob -AdministratorLogin (Read-Host "Enter Admin") -AdministratorLoginPassword (Read-Host "Enter Password" -AsSecureString)

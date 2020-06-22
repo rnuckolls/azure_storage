@@ -1,0 +1,1 @@
+DECLARE EXTERNAL @in string = "/Staging/biometricstats/v1/{*}.csv";

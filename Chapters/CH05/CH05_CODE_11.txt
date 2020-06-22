@@ -1,0 +1,24 @@
+$endpoint = "https://ade-dev-eastus2-hubs.servicebus.windows.net/biometricstats/messages" + "?timeout=60&api-version=2014-01"
+$headers = New-Object "System.Collections.Generic.Dictionary[[String],[String]]"
+$headers.Add("Authorization", $SASToken)
+$headers.Add("Content-Type", "application/vnd.microsoft.servicebus.json")
+$headers.Add("Host", "ade-dev-eastus2-hubs.servicebus.windows.net")
+$eventDate = (Get-Date).ToUniversalTime().ToString("o")
+$messages =  New-Object "System.Collections.Generic.List[[String]]"
+for($i = 0; $i -lt 30; $i++)
+{
+#Construct body using Hashtable
+$partition = @{PartitionKey="3"}
+$htbody = @{ 
+    Id=(New-Guid).Guid
+    Player="abera101"
+    Node=(Get-Random -Minimum 0 -Maximum 40)
+    NodeValue=(Get-Random -Minimum 40 -Maximum 110)
+    EventTime= $eventDate
+  }
+$messages.Add((ConvertTo-Json @{
+    Body=(ConvertTo-Json $htbody) 
+    BrokerProperties=$partition
+  }))
+}
+Invoke-WebRequest -Uri $endpoint -Method POST -Body ("[" + ($messages -join ",") + "]") -Headers $headers

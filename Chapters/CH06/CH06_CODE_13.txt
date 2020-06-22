@@ -1,0 +1,5 @@
+New-AzStreamAnalyticsTransformation -ResourceGroupName "ade-dev-eastus2" 
+<linearrow />-JobName "ade-dev-eastus2-asa-biometricstats" <1>
+<linearrow />-Name "Transformation" <2>
+<linearrow />-File "~/asa/transform.json" <3>
+<linearrow />-Force <4>

@@ -1,0 +1,12 @@
+"schema": [
+            {
+                "name": "PlayerId",
+                "type": "nvarchar"
+            },
+            {
+                "name": "PositionEnd",
+                "type": "datetime",
+                "precision": 23,
+                "scale": 3
+            }
+        ]

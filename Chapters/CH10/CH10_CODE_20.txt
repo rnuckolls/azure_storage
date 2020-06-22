@@ -1,0 +1,2 @@
+Set-AzDataFactoryV2Dataset -ResourceGroupName "ade-dev-eastus2" -DataFactoryName "ade-dev-eastus2-adf" -Name "FilesBinary1" -DefinitionFile "~/adf/FilesBinary1.json"
+Set-AzDataFactoryV2Dataset -ResourceGroupName "ade-dev-eastus2" -DataFactoryName "ade-dev-eastus2-adf" -Name "ADLBinary1" -DefinitionFile "~/adf/ADLBinary1.json"

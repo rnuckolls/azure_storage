@@ -1,0 +1,10 @@
+USE DATABASE master;
+REFERENCE ASSEMBLY ImageCommon;
+REFERENCE ASSEMBLY FaceSdk;
+DECLARE @in = "/Staging/Stadium/v1/{Camera}/{FileName}.jpg";
+@people = EXTRACT
+    Camera string,
+    FileName string,
+    FaceGender string
+    FROM @in
+    USING new Cognition.Vision.FaceDetectionExtractor();

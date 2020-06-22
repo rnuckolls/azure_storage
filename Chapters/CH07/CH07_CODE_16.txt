@@ -1,0 +1,3 @@
+@PlayersPassthrough = 
+    SELECT *
+    FROM @Players;

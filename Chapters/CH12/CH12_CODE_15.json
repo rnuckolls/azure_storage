@@ -1,0 +1,10 @@
+"source": {
+    "type": "DelimitedTextSource",
+    "storeSettings": {
+        "type": "AzureDataLakeStoreReadSettings",
+        "recursive": true
+    },
+    "formatSettings": {
+        "type": "DelimitedTextReadSettings"
+    }
+}

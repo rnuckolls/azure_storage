@@ -1,0 +1,1 @@
+CREATE EXTERNAL DATA SOURCE [ade-dev-eastus2-blob-playerdata] WITH (TYPE = BLOB_STORAGE, LOCATION = 'https://adedeveastus2.blob.core.windows.net/biometricstats/Staging/Players', CREDENTIAL = [ade-dev-eastus2-blob-playerdata]);

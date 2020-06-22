@@ -1,0 +1,2 @@
+$Secret = ConvertTo-SecureString -String (Get-AzStorageAccountKey -ResourceGroupName "ade-dev-eastus2" -AccountName "adedeveastus2" | Where-Object {$_.KeyName -eq "key1"}).Value -AsPlainText -Force
+Set-AzKeyVaultSecret -VaultName "ade-dev-eastus2-key" -Name "adedeveastus2-files-key" -SecretValue $Secret -ContentType "key" 

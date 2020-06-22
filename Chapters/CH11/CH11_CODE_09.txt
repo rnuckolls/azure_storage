@@ -1,0 +1,1 @@
+Set-AzSqlDatabaseSecondary -PartnerResourceGroupName "ade-dev-eastus2" -Failover -ResourceGroupName "ade-dev-westus2" -ServerName "ade-dev-westus2-sql" -DatabaseName "ade-dev-playerstats"

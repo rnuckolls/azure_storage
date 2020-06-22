@@ -1,0 +1,3 @@
+SELECT Id, NodeValue, Player, Node, EventTime, PartitionId, EventProcessedUtcTime, EventEnqueuedUtcTime 
+INTO SqlOutputRaw
+FROM HubsInputBiometrics;

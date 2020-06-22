@@ -1,0 +1,14 @@
+{
+"properties":{
+    "datasource":{
+        "type":"Microsoft.Sql/Server/Database", 
+        "properties":{
+            "server":"tcp:ade-dev-eastus2-sql.database.windows.net", 
+            "database":"Biometricstats", 
+            "table":"raw", 
+            "user":"user@sampleserver", 
+            "password":"****************" 
+            }
+        }
+    }
+}

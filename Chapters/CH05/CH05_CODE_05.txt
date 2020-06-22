@@ -1,0 +1,2 @@
+Get-AzEventHubAuthorizationRule -ResourceGroupName ade-dev-eastus2 -NamespaceName ade-dev-eastus2-hubs
+Get-AzEventHubKey -ResourceGroupName ade-dev-eastus2 -NamespaceName ade-dev-eastus2 -AuthorizationRuleName RootManageSharedAccessKey

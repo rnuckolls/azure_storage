@@ -1,0 +1,1 @@
+Invoke-Sqlcmd -ServerInstance "tcp:ade-dev-eastus2-sql.database.windows.net" -Database "Biometricstats" -Credential (Get-Credential) -Query "CREATE TABLE raw (Player nvarchar(255), Node int, NodeValue decimal(5,2), EventTime datetime);"

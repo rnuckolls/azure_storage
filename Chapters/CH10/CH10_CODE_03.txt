@@ -1,0 +1,2 @@
+$App = Get-AzADApplication -DisplayName "ade-dev-eastus2-adf-id" 
+New-AzADServicePrincipal -ApplicationId $App.ApplicationId.Guid

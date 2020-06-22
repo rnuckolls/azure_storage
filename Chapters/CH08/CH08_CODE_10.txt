@@ -1,0 +1,1 @@
+(Get-AzDataLakeAnalyticsCatalogItem -Account adedeveastus -ItemType Table -Path "Players.dbo.SensorData").DistributionInfo

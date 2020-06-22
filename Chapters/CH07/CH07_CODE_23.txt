@@ -1,0 +1,43 @@
+DECLARE EXTERNAL @fileprefix string = "Player";
+DECLARE @in string = String.Format("wasb://biometricstats@adedeveastus2/Staging/Players/{0}{1}.txt", @fileprefix, "{*}");
+
+@Players =
+EXTRACT
+    PlayerId string,
+    PlayerName string,
+    TeamName string,
+    TeamPosition string,
+    PositionStart DateTime,
+    PositionEnd DateTime?
+FROM @in
+USING Extractors.Text(
+    delimiter: '\t',
+    encoding: Encoding.UTF8,
+    escapeCharacter: '#',
+    nullEscape: "NULL",
+    quoting: true,
+    silent: false,
+    skipFirstNRows: 1,
+    charFormat: "uint16");
+
+@CurrentPlayers = 
+SELECT 
+    PlayerName AS Name,
+    TeamName AS Team,
+    TeamPosition AS Position
+    FROM @Players
+    WHERE PositionEnd != null
+    GROUP BY PlayerName, TeamName, TeamPosition;
+
+OUTPUT @CurrentPlayers
+    TO "/Raw/Players/v1/APlayers.csv"
+    USING Outputters.Text(
+    delimiter: ',',
+    dateTimeFormat: "o",
+    encoding: Encoding.UTF8,
+    escapeCharacter: '#',
+    nullEscape: "NOTHING",
+    quoting: true,
+    rowDelimiter: "\n",
+    charFormat: "uint16",
+    outputHeader: true);

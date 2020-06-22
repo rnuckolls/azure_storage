@@ -1,0 +1,3 @@
+CREATE USER [ade-dev-eastus2-adf-id] FROM EXTERNAL PROVIDER;
+ALTER ROLE [db_datareader] ADD MEMBER [ade-dev-eastus2-adf-id];
+ALTER ROLE [db_datawriter] ADD MEMBER [ade-dev-eastus2-adf-id];

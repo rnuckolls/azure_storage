@@ -1,0 +1,1 @@
+New-AzRmStorageShare -ResourceGroupName "ade-dev-eastus2" -StorageAccountName "adedeveastus2" -Name "accesscard" -QuotaGiB 500

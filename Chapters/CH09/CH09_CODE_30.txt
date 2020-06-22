@@ -1,0 +1,1 @@
+New-AzDataLakeAnalyticsCatalogCredential -AccountName "adedeveastus2" -DatabaseName "Players" -CredentialName "PlayerStatsAdmin" -Credential (Get-Credential) -DatabaseHost "ade-dev-eastus2-sql.database.windows.net" -Port 1433

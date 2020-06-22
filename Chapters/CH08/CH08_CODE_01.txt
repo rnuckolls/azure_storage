@@ -1,0 +1,14 @@
+USE DATABASE Players;
+DROP VIEW IF EXISTS v_Sensors;
+CREATE VIEW v_Sensors
+    AS  
+EXTRACT Id Guid,
+        Player string,
+        Node int,
+        NodeValue decimal,
+        EventTime DateTime,
+        PartitionId int,
+        EventEnqueuedUtcTime DateTime,
+        EventProcessedUtcTime DateTime
+    FROM "/Staging/Sensor/v1/sensor_00.csv"
+    USING Extractors.Csv(skipFirstNRows: 1);

@@ -1,0 +1,1 @@
+New-AzStreamAnalyticsOutput -ResourceGroupName "ade-dev-eastus2" -JobName "ade-dev-eastus2-biometricstats" -Name "SqlOutputRaw" -File "~/asa/outputs.json"

@@ -1,0 +1,1 @@
+Start-AzStreamAnalyticsJob -ResourceGroupName "ade-dev-eastus2" -Name "ade-dev-eastus2-asa-biometricstats" -OutputStartMode "CustomTime" -OutputStartTime "2019-06-01T00:00Z"

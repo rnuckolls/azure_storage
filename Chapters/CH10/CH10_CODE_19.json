@@ -1,0 +1,17 @@
+{
+    "name": "Binary2",
+    "properties": {
+        "linkedServiceName": {
+            "referenceName": "AzureDataLakeStore1",
+            "type": "LinkedServiceReference"
+        },
+        "annotations": [],
+        "type": "Binary",
+        "typeProperties": {
+            "location": {
+                "type": "AzureDataLakeStoreLocation",
+                "folderPath": "Staging/Stadium/Doors"
+            }
+        }
+    }
+}

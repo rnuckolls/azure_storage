@@ -1,0 +1,1 @@
+Set-AzDataLakeStoreItemOwner -Account "adedeveastus2" -Path / -Type Group -Id (Get-AzADGroup -DisplayName "Technical Operations").Id

@@ -1,0 +1,1 @@
+New-AzDataLakeStoreAccount -ResourceGroupName "ade-dev-eastus2" -Name "adedeveastus2" -Location "East US 2" -Encryption "ServiceManaged"

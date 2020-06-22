@@ -1,0 +1,2 @@
+New-AzSqlElasticPool -ResourceGroupName "ade-dev-eastus2" -ServerName "ade-dev-eastus2-sql" -ElasticPoolName "ade-dev-eastus2-sql-pool1" -Edition "Standard" -Dtu 400 -DatabaseDtuMin 10 -DatabaseDtuMax 400
+Set-AzSqlDatabase -ResourceGroupName "ade-dev-eastus2" -ServerName "ade-dev-eastus2-sql" -DatabaseName "ade-dev-playerstats" -ElasticPoolName "ade-dev-eastus2-sql-pool1"

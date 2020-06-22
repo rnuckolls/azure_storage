@@ -1,0 +1,18 @@
+@Players = 
+EXTRACT
+    PlayerId string,
+    PlayerName string,
+    TeamName string,
+    TeamPosition string,
+    PositionStart DateTime,
+    PositionEnd DateTime?
+FROM @in
+USING Extractors.Text(
+    delimiter: '\t',
+    encoding: Encoding.UTF32,
+    escapeCharacter: '#',
+    nullEscape: "NULL",
+    quoting: true, 
+    silent: false,
+    skipFirstNRows: 1,
+    charFormat: "uint16");

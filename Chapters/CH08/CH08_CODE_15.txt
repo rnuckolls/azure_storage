@@ -1,0 +1,31 @@
+DECLARE @Trend Func<decimal, decimal?, string> =
+((nodeValue, lastValue) =>
+{
+    if (nodeValue > lastValue)
+    {
+        return "Greater";
+    }
+    else if (nodeValue < lastValue)
+    {
+        return "Lesser";
+    }
+    else
+    {
+        return "Same";
+    };
+});
+
+@counts = 
+    SELECT 
+        s.Player,
+        s.Node,
+        s.NodeValue,
+        s.EventTime,
+        LAG(s.NodeValue, 1, 0) OVER(ORDER BY s.Player, s.Node, s.EventTime) AS lastNodeValue,
+        @Trend(s.NodeValue, LAG(s.NodeValue, 1, 0) OVER(ORDER BY s.Player, s.Node, s.EventTime)) AS NodeTrend
+        FROM [Players].[dbo].[f_Sensors]("v1") AS s;
+
+OUTPUT @counts
+    TO "/Sandbox/User1/SensorTable/SensorData5.tsv"
+    ORDER BY Player, Node, EventTime
+    USING Outputters.Tsv(outputHeader: true);

@@ -1,0 +1,4 @@
+New-AzDataLakeStoreItem -AccountName "adedeveastus2" -Path "/Code/Assemblies/master/cognition/v1/" -Folder
+Move-AzDataLakeStoreItem -Account "adedeveastus2" -Path "/usqlext/assembly/cognition/" -Destination "/Code/Assemblies/master/cognition/v1/"
+Move-AzDataLakeStoreItem -Account "adedeveastus2" -Path "/usqlext/assembly/cognition/vision/" -Destination "/Code/Assemblies/master/cognition/v1/"
+Remove-AzDataLakeStoreItem -Account "adedeveastus2" -Paths "/usqlext/" -Recurse

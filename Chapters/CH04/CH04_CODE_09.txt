@@ -1,0 +1,9 @@
+New-AzDataLakeStoreItem -AccountName "adedeveastus2" -Path "/Raw" -Folder
+New-AzDataLakeStoreItem -AccountName "adedeveastus2" -Path "/Raw/Finance" -Folder
+New-AzDataLakeStoreItem -AccountName "adedeveastus2" -Path "/Raw/Operations" -Folder
+New-AzDataLakeStoreItem -AccountName "adedeveastus2" -Path "/Raw/Finance/Sales-Reports" -Folder
+New-AzDataLakeStoreItem -AccountName "adedeveastus2" -Path "/Raw/Finance/Sales-Reports/Growth-v1" -Folder
+New-AzDataLakeStoreItem -AccountName "adedeveastus2" -Path "/Raw/Finance/Sales-Reports/Growth-v2" -Folder
+New-AzDataLakeStoreItem -AccountName "adedeveastus2" -Path "/Raw/Finance/Sales-Reports/Growth-v1/2017" -Folder
+New-AzDataLakeStoreItem -AccountName "adedeveastus2" -Path "/Raw/Finance/Sales-Reports/Growth-v2/2017" -Folder
+New-AzDataLakeStoreItem -AccountName "adedeveastus2" -Path "/Raw/Finance/Sales-Reports/Growth-v2/2018" -Folder

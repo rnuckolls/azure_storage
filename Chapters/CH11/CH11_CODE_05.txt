@@ -1,0 +1,4 @@
+$Db = Get-AzSqlDatabase -ResourceGroupName "ade-dev-eastus2" -ServerName "ade-dev-eastus2-sql" -DatabaseName "Playerstats"
+Get-AzSqlDatabaseRestorePoint -ResourceGroupName $Db.ResourceGroupName -ServerName $Db.ServerName -DatabaseName $Db.DatabaseName
+$Date = Get-Date -Year 2020 -Month 2 -Day 2 -Hour 13 -Minute 0 -Second 0
+Restore-AzSqlDatabase -FromPointInTimeBackup -PointInTime $Date -ResourceGroupName $Db.ResourceGroupName -ServerName $Db.ServerName -TargetDatabaseName "Playerstats_2020_02_02_13_00" -ResourceId $Db.ResourceID -Edition "Standard" -ServiceObjectiveName "S0"

@@ -1,0 +1,3 @@
+$Group = "Technical Operations"
+$GroupId = (Get-AzADGroup -DisplayName $Group).Id
+Set-AzSqlServerActiveDirectoryAdministrator -ResourceGroupName "ade-dev-eastus2" -ServerName "ade-dev-eastus2-sql" -DisplayName $Group -ObjectId $GroupId

@@ -1,0 +1,2 @@
+Set-AzDataFactoryV2Trigger -ResourceGroupName "ade-dev-eastus2" -DataFactoryName "ade-dev-eastus2-adf" -Name "trigger1" -DefinitionFile "~/adf/trigger1.json"
+Start-AzDataFactoryV2Trigger -ResourceGroupName "ade-dev-eastus2" -DataFactoryName "ade-dev-eastus2-adf" -Name "trigger1"

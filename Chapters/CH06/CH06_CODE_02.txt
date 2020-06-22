@@ -1,0 +1,1 @@
+New-AzStreamAnalyticsJob -ResourceGroupName "ade-dev-eastus2" -Name "ade-dev-eastus2-biometricstats" -File ~/asa/streamingjob.json

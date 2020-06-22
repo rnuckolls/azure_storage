@@ -1,0 +1,7 @@
+New-AzDataLakeStoreItem -AccountName "adedeveastus2" -Path "/Staging" -Folder
+New-AzDataLakeStoreItem -AccountName "adedeveastus2" -Path "/Staging/Finance" -Folder
+New-AzDataLakeStoreItem -AccountName "adedeveastus2" -Path "/Staging/DevOps" -Folder
+New-AzDataLakeStoreItem -AccountName "adedeveastus2" -Path "/Staging/Operations" -Folder
+New-AzDataLakeStoreItem -AccountName "adedeveastus2" -Path "/Staging/Finance/Growth" -Folder
+New-AzDataLakeStoreItem -AccountName "adedeveastus2" -Path "/Staging/Finance/SalesW" -Folder
+New-AzDataLakeStoreItem -AccountName "adedeveastus2" -Path "/Staging/Finance/Product" -Folder

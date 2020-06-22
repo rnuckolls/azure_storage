@@ -1,0 +1,1 @@
+New-AzStorageContainerStoredAccessPolicy -Container "finance" -Policy "AddFiles" -Permission rwcl -Context (New-AzStorageContext -StorageAccountName "adedeveastus2" -StorageAccountKey "<storage key>")

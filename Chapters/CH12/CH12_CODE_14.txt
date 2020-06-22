@@ -1,0 +1,1 @@
+Set-AzDataFactoryV2Dataset -ResourceGroupName "ade-dev-eastus2" -DataFactoryName "ade-dev-eastus2-adf" -Name "AzureSqlTable1" -DefinitionFile "~/adf/AzureSqlTable1.json"

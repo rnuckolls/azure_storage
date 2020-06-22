@@ -1,0 +1,4 @@
+New-AzDataLakeStoreItem -AccountName "adedeveastus2" -Path "/Curated" -Folder
+New-AzDataLakeStoreItem -AccountName "adedeveastus2" -Path "/Curated/FolderA" -Folder
+New-AzDataLakeStoreItem -AccountName "adedeveastus2" -Path "/Curated/FolderB" -Folder
+New-AzDataLakeStoreItem -AccountName "adedeveastus2" -Path "/Curated/FolderC" -Folder

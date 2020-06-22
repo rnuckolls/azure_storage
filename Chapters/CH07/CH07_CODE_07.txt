@@ -1,0 +1,12 @@
+@Players = 
+    EXTRACT
+            Id Guid,
+            Player string,
+            Node int,
+            NodeValue decimal,
+            EventTime DateTime,
+            PartitionId int,
+            EventEnqueuedUtcTime DateTime,
+            EventProcessedUtcTime DateTime
+    FROM @in
+    USING Extractors.Csv(skipFirstNRows: 1);

@@ -1,0 +1,5 @@
+@view = SELECT * FROM [Players].[dbo].[v_Sensors];
+
+OUTPUT @view
+    TO "/Sandbox/User1/Players.dbo.v_Sensors.tsv"
+    USING Outputters.Tsv();

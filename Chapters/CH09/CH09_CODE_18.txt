@@ -1,0 +1,5 @@
+@rowset = EXTRACT
+    title string,
+    options string
+    FROM @example
+    USING new JsonExtractor();

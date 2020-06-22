@@ -1,0 +1,12 @@
+[Reflection.Assembly]::LoadWithPartialName("System.Web") | out-null
+
+$key = Get-AzEventHubKey -ResourceGroupName ade-dev-eastus2 -NamespaceName ade-dev-eastus2-hubs -EventHubName biometricstats -AuthorizationRuleName biometricstats-hub-writer
+$URI="ade-dev-eastus2-hubs.servicebus.windows.net/biometricstats"
+
+$Expires=([DateTimeOffset]::Now.ToUnixTimeSeconds())+300
+$SignatureString=[System.Web.HttpUtility]::UrlEncode($URI)+ "`n" + [string]$Expires
+$HMAC = New-Object System.Security.Cryptography.HMACSHA256
+$HMAC.key = [Text.Encoding]::ASCII.GetBytes($key.PrimaryKey)
+$Signature = $HMAC.ComputeHash([Text.Encoding]::ASCII.GetBytes($SignatureString))
+$Signature = [Convert]::ToBase64String($Signature)
+$SASToken = "SharedAccessSignature sr=" + [System.Web.HttpUtility]::UrlEncode($URI) + "&sig=" + [System.Web.HttpUtility]::UrlEncode($Signature) + "&se=" + $Expires + "&skn=" + $key.KeyName

@@ -1,0 +1,3 @@
+"PlayerId"	"PlayerName"	"TeamName"	"TeamPosition"	"PositionStart"	"PositionEnd"
+"abera101"	"Arnold Berathal"	"Jonestown Sluggers"	"Pitcher"	2010-07-11T00:00:00.0000000Z	2020-07-11T00:00:00.0000000Z
+"jstro102"	"John Strong"	"Poplar Bats"	"Second Base"	2010-07-11T00:00:00.0000000Z

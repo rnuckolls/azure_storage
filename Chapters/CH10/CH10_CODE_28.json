@@ -1,0 +1,35 @@
+{
+    "name": "pipeline2",
+    "properties": {
+        "activities": [
+            {
+                "name": "U-SQL1",
+                "type": "DataLakeAnalyticsU-SQL",
+                "dependsOn": [],
+                "policy": {
+                    "timeout": "0.01:00:00",
+                    "retry": 1,
+                    "retryIntervalInSeconds": 60,
+                    "secureOutput": false,
+                    "secureInput": false
+                },
+                "userProperties": [],
+                "typeProperties": {
+                    "scriptPath": "Code/Usql/Players/readview.usql",
+                    "degreeOfParallelism": 2,
+                    "priority": 10,
+                    "compilationMode": "Semantic",
+                    "scriptLinkedService": {
+                        "referenceName": "AzureDataLakeStore1",
+                        "type": "LinkedServiceReference"
+                    }
+                },
+                "linkedServiceName": {
+                    "referenceName": "AzureDataLakeAnalytics1",
+                    "type": "LinkedServiceReference"
+                }
+            }
+        ],
+        "annotations": []
+    }
+}

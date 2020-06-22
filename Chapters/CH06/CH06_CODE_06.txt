@@ -1,0 +1,1 @@
+New-AzSqlDatabase -ResourceGroupName "ade-dev-eastus2" -ServerName "ade-dev-eastus2-sql" -DatabaseName "Playerstats" -Edition "Basic"

@@ -1,0 +1,9 @@
+USE DATABASE Players;
+
+@results =
+    SELECT  *
+    FROM EXTERNAL adedeveastus2sql LOCATION "dbo.vw_PlayerNames";
+
+OUTPUT @results
+TO "/Sandbox/User1/Player/external1.csv"
+USING Outputters.Csv(outputHeader: true);

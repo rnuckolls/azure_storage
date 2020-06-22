@@ -1,0 +1,1 @@
+BULK INSERT [#blob_playerdetails] FROM 'PlayerDetails.txt' WITH (DATA_SOURCE = 'ade-dev-eastus2-blob-playerdata', FORMAT = 'CSV', FIRSTROW = 2);

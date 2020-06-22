@@ -1,0 +1,54 @@
+USE DATABASE Players;
+DROP FUNCTION IF EXISTS f_Sensors;
+CREATE FUNCTION f_Sensors  (@version string = "v2")
+RETURNS @result TABLE(
+    Id Guid, Player string, Node int, NodeType string,
+    NodeName string, NodeValue decimal, EventTime DateTime)
+AS
+BEGIN
+    IF @version == "v2" THEN
+    @sensors = EXTRACT 
+        Id Guid,
+        Player string,
+        Node int,
+        NodeType string,
+        NodeValue decimal,
+        EventTime DateTime,
+        PartitionId int,
+        EventEnqueuedUtcTime DateTime,
+        EventProcessedUtcTime DateTime
+        FROM "/Staging/Sensor/v2/sensor_{*}.csv"
+        USING Extractors.Csv(skipFirstNRows: 1); 
+        
+    ELSE
+    @sensorLoad = EXTRACT
+        Id Guid,
+        Player string,
+        Node int,
+        NodeValue decimal,
+        EventTime DateTime,
+        PartitionId int,
+        EventEnqueuedUtcTime DateTime,
+        EventProcessedUtcTime DateTime
+        FROM "/Staging/Sensor/v1/sensor_00.csv"
+        USING Extractors.Csv(skipFirstNRows: 1);
+
+    @sensors = SELECT
+        Id, Player, Node, "Unknown" AS NodeType, NodeValue,
+        EventTime, PartitionId, EventEnqueuedUtcTime, EventProcessedUtcTime
+        FROM @sensorLoad;
+    END;
+
+@sensorNames = EXTRACT 
+        Id int,
+        NodeName string
+    FROM "/Raw/Sensor/v1/SensorNames.txt"
+    USING Extractors.Tsv();
+
+@result = SELECT
+        s.Id, s.Player, s.Node, s.NodeType,
+        sn.NodeName, s.NodeValue, s.EventTime
+	FROM @sensors AS s
+	INNER JOIN @sensorNames AS sn
+	ON s.Node == sn.Id;
+END;

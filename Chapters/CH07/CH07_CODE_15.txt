@@ -1,0 +1,2 @@
+$jobId = (Get-AzDataLakeAnalyticsJob -Account "adedeveastus2" -Name "Sensor Daily Agg" -Top 1).JobId 
+Get-AzDataLakeAnalyticsJob -Account "adedeveastus2" -JobId $jobId

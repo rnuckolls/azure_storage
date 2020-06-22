@@ -1,0 +1,1 @@
+Submit-AzDataLakeAnalyticsJob -Account "adedeveastus2" -Name "Sensor Daily Agg" -ScriptPath "~/adla/dailyagg.usql" -AnalyticsUnits 1

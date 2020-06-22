@@ -1,0 +1,6 @@
+"Female","Adult",16
+"Female","Child",3
+"Female","Retired",2
+"Male","Adult",41
+"Male","Child",1
+"Male","Retired",7

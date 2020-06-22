@@ -1,0 +1,6 @@
+CREATE ASSEMBLY IF NOT EXISTS [CodeName]
+FROM @"/Code/Assemblies/Database/Program/v1/CodeName.dll"
+WITH ADDITIONAL FILES = (
+    @"/Code/Assemblies/Database/Program/v1/Code1.txt",
+    @"/Code/Assemblies/Database/Program/v1/Code2.dll"
+);

@@ -1,0 +1,3 @@
+$Adla = Get-AzResource -Name "adedeveastus2" -ResourceType "Microsoft.DataLakeStore/accounts"
+$App = Get-AzADApplication -DisplayName "ade-dev-eastus2-adf-id"
+New-AzRoleAssignment -RoleDefinitionName "Contributor" -ApplicationId $App.ApplicationId

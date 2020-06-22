@@ -1,0 +1,7 @@
+$pri = Get-AzADServicePrincipal -DisplayName Microsoft.EventHubs
+$store = "adedeveastus2"
+New-AzDataLakeStoreItem -AccountName $store -Path "/Staging/playerstats" -Folder
+Set-AzDataLakeStoreItemAclEntry -AccountName $store -Path / -AceType User -Id $pri.Id -Permissions Execute
+Set-AzDataLakeStoreItemAclEntry -AccountName $store -Path /Staging -AceType User -Id $pri.Id -Permissions Execute
+Set-AzDataLakeStoreItemAclEntry -AccountName $store -Path /Staging/playerstats -AceType User -Id $pri.Id -Permissions All -Default
+Set-AzDataLakeStoreItemAclEntry -AccountName $store -Path /Staging/playerstats -AceType User -Id $pri.Id -Permissions All -Recurse -Concurrency 128

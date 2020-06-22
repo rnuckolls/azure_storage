@@ -1,0 +1,1 @@
+Set-AzDataLakeStoreItemAclEntry -AccountName "adedeveastus2" -Path / -AceType Other -Permissions ReadExecute

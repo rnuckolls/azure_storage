@@ -1,0 +1,2 @@
+Set-AzDataLakeStoreItemAclEntry -AccountName "adedeveastus2" -Path / -AceType User -Id (Get-AzADServicePrincipal -DisplayName "ade-dev-eastus2-adf-id").ApplicationId.Guid -Permissions All -Recurse
+Set-AzDataLakeStoreItemAclEntry -AccountName "adedeveastus2" -Path / -AceType User -Id (Get-AzADServicePrincipal -DisplayName "ade-dev-eastus2-adf-id").ApplicationId.Guid -Permissions All -Recurse -Default

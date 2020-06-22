@@ -1,0 +1,1 @@
+New-AzEventHubNamespace -ResourceGroupName "ade-dev-eastus2" -NamespaceName "ade-dev-eastus2-hubs" -Location "East US 2" -SkuName "Standard" -SkuCapacity 1 -Tag @{User="ADE";} -EnableAutoInflate -MaximumThroughputUnits 5

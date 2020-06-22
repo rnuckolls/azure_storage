@@ -1,0 +1,4 @@
+@results =
+    SELECT  *
+    FROM EXTERNAL [Data Source] 
+    LOCATION "[schema].[TableName]";

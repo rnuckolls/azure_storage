@@ -1,0 +1,2 @@
+Add-AzDataLakeAnalyticsDataSource -Account "adedeveastus2" -Blob "ade2deveast2" -AccessKey "==Key==" -ResourceGroupName "ade-dev-west2" 
+Add-AzDataLakeAnalyticsDataSource -Account "adedeveastus2" -DataLakeStore "fcrdeveastus2"

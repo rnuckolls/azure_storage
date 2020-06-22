@@ -1,0 +1,18 @@
+USE DATABASE Players; 
+CREATE TABLE IF NOT EXISTS WeatherData
+(
+    Zone string,
+    Filename string,
+    Id string,
+    Station string,
+    EventDate DateTime,
+    Temperature decimal,
+    WindSpeed decimal,
+    WindDirection decimal,
+    Pressure decimal,
+    Visibility decimal,
+    Precipitation decimal,
+    RelativeHumidity decimal,
+    INDEX idx_SensorData CLUSTERED(EventDate ASC)
+)
+DISTRIBUTED BY HASH(Station);

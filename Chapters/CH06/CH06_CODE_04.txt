@@ -1,0 +1,1 @@
+New-AzStreamAnalyticsInput -ResourceGroupName "ade-dev-eastus2" -JobName "ade-dev-eastus2-biometricstats" -Name "HubsInputBiometrics" -File "~/asa/inputs.json"

@@ -1,0 +1,6 @@
+@view = SELECT s.Id, s.Player, s.Node, sn.NodeName, s.NodeValue, s.EventTime 
+	FROM [Players].[dbo].[f_Sensors]() AS s;
+
+OUTPUT @view
+    TO "/Sandbox/User1/Players.dbo.f_Sensors.tsv"
+    USING Outputters.Tsv();

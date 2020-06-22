@@ -1,0 +1,12 @@
+USE DATABASE Players;
+
+DROP DATA SOURCE IF EXISTS adedeveastus2sql;
+CREATE DATA SOURCE adedeveastus2sql
+FROM AZURESQLDB
+WITH
+(
+    PROVIDER_STRING = "Database=Playerstats;Trusted_Connection=False;Encrypt=True",
+    CREDENTIAL = PlayerStatsAdmin,
+    REMOTABLE_TYPES = (bool, byte, short, int, long, 
+    decimal, float, double, string, DateTime)
+);

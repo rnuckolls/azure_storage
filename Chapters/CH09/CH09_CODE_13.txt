@@ -1,0 +1,5 @@
+@rowset = EXTRACT
+    Field1 string,
+    Field2 string
+    FROM @inputFiles
+    USING new JsonExtractor();

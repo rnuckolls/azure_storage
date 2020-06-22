@@ -1,0 +1,2 @@
+$App = Get-AzADServicePrincipal -DisplayName "ade-dev-eastus2-adf"
+Set-AzKeyVaultAccessPolicy -VaultName "ade-dev-eastus2-key" -ObjectId $App.Id -PermissionsToSecrets Get,List

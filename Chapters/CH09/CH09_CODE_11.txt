@@ -1,0 +1,47 @@
+{
+  "@context": [
+    "https://raw.githubusercontent.com/geojson/geojson-ld/master/contexts/geojson-base.jsonld",
+    {
+      "wx": "https://api.weather.gov/ontology#",
+      "s": "https://schema.org/",
+      "geo": "http://www.opengis.net/ont/geosparql#",
+      "@vocab": "https://api.weather.gov/ontology#",
+      "geometry": {
+        "@id": "s:GeoCoordinates",
+        "@type": "geo:wktLiteral"
+      }
+    }
+  ],
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "id": "https://api.weather.gov/stations/KSGT/observations/2019-11-22T07:56:00+00:00",
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -91.5699999,
+          34.6
+        ]
+      },
+      "properties": {
+        "@id": "https://api.weather.gov/stations/KSGT/observations/2019-11-22T07:56:00+00:00",
+        "@type": "wx:ObservationStation",
+        "elevation": {
+          "value": 68,
+          "unitCode": "unit:m"
+        },
+        "station": "https://api.weather.gov/stations/KSGT",
+        "timestamp": "2019-11-22T07:56:00+00:00",
+        "rawMessage": "KSGT 220756Z AUTO 18011KT 10SM FEW055 BKN120 16/15 A2994 RMK AO2 SLP137 T01610150",
+        "textDescription": "Mostly Cloudy",
+        "icon": "https://api.weather.gov/icons/land/night/bkn?size=medium",
+        "presentWeather": [],
+        "temperature": {
+          "value": 16.100000000000023,
+          "unitCode": "unit:degC",
+          "qualityControl": "qc:V"
+        }
+      }
+    }]
+}

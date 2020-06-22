@@ -1,0 +1,8 @@
+@CurrentPlayers =
+SELECT
+    PlayerName AS Name,
+    TeamName AS Team,
+    TeamPosition AS Position
+    FROM @Players
+    WHERE PositionEnd == null
+    GROUP BY PlayerName, TeamName, TeamPosition;

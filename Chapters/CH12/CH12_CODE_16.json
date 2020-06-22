@@ -1,0 +1,11 @@
+"sink": {
+	"type": "DelimitedTextSink",
+	"storeSettings": {
+		"type": "AzureDataLakeStoreWriteSettings"
+	},
+	"formatSettings": {
+		"type": "DelimitedTextWriteSettings",
+		"quoteAllText": true,
+		"fileExtension": ".csv"
+	}
+}

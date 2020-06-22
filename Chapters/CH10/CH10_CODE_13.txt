@@ -1,0 +1,2 @@
+$Secret = Read-Host -AsSecureString 
+Set-AzKeyVaultSecret -VaultName "ade-dev-eastus2-key" -Name "ade-dev-eastus2-adf-key" -SecretValue $Secret -ContentType "key"

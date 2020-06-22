@@ -1,0 +1,9 @@
+AnomalyDetection_SpikeAndDip(
+    ValueToAnalyze, 
+    ConfidenceFactor, 
+    EventsToTrain, 
+    'spikes') 
+OVER (
+    [PARTITION BY Sensor] 
+    LIMIT DURATION(second, 300) 
+    [WHEN 1 = 1]) 

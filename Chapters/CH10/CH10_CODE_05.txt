@@ -1,0 +1,1 @@
+Undo-AzKeyVaultRemoval -VaultName "ade-dev-eastus2-key" -ResourceGroupName "ade-dev-eastus2" -Location "East US 2"

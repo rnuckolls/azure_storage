@@ -1,0 +1,1 @@
+New-AzSqlDatabaseCopy -ResourceGroupName "ade-dev-eastus2" -ServerName "ade-dev-eastus2-sql" -DatabaseName "Playerstats" -CopyResourceGroupName "ade-prod-eastus2" -CopyServerName "ade-prod-eastus2-sql" -CopyDatabaseName "Playerstats_2020_02_02_13_00" -ServiceObjectiveName "S0"

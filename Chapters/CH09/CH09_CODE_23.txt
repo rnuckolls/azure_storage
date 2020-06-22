@@ -1,0 +1,73 @@
+USE DATABASE Players;
+REFERENCE ASSEMBLY [Newtonsoft.Json];
+REFERENCE ASSEMBLY [Microsoft.Analytics.Samples.Formats];
+USING Microsoft.Analytics.Samples.Formats.Json;
+DECLARE @in = @"/Staging/weather.gov/v1/observations/{Zone}/{Filename}.json";
+
+@rows = EXTRACT
+    Zone string,
+    Filename string,
+    id string,
+    properties string
+    FROM @in
+    USING new JsonExtractor("features[*]");
+
+@jsonRows = SELECT
+    Zone,
+    Filename,
+    id AS Id,
+    JsonFunctions.JsonTuple(properties)["station"] AS Station,
+    JsonFunctions.JsonTuple(properties)["timestamp"] AS EventDate,
+    JsonFunctions.JsonTuple(properties)["temperature"] AS TempsArray,
+    JsonFunctions.JsonTuple(properties)["windDirection"] AS WindDirArray,
+    JsonFunctions.JsonTuple(properties)["windSpeed"] AS WindSpeedArray,
+    JsonFunctions.JsonTuple(properties)["barometricPressure"] AS PressureArray,
+    JsonFunctions.JsonTuple(properties)["visibility"] AS VisibilityArray,
+    JsonFunctions.JsonTuple(properties)["precipitationLastHour"] AS PrecipitationArray,
+    JsonFunctions.JsonTuple(properties)["relativeHumidity"] AS HumidityArray
+    FROM @rows;
+
+@jsonRows2 = SELECT
+    Zone,
+    Filename,
+    Id,
+    Station.Replace("https://api.weather.gov/stations/",string.Empty) AS Station,
+    EventDate,
+    JsonFunctions.JsonTuple(TempsArray) AS Temps,
+    JsonFunctions.JsonTuple(WindDirArray) AS WindDirs,
+    JsonFunctions.JsonTuple(WindSpeedArray) AS WindSpeeds,
+    JsonFunctions.JsonTuple(PressureArray) AS Pressures,
+    JsonFunctions.JsonTuple(VisibilityArray) AS Visibilitys,
+    JsonFunctions.JsonTuple(PrecipitationArray) AS Precipitations,
+    JsonFunctions.JsonTuple(HumidityArray) AS Humiditys
+    FROM @jsonRows;
+
+@splitRows = SELECT
+    Zone,
+    Filename,
+    Id,
+    Station,
+    Convert.ToDateTime(EventDate) AS EventDate,
+    Convert.ToDecimal(Temps["value"]) AS Temperature,
+    Convert.ToDecimal(WindDirs["value"]) AS WindDirection,
+    Convert.ToDecimal(WindSpeeds["value"]) AS WindSpeed,
+    Convert.ToDecimal(Pressures["value"]) AS Pressure,
+    Convert.ToDecimal(Visibilitys["value"]) AS Visibility,
+    Convert.ToDecimal(Precipitations["value"]) AS Precipitation,
+    Convert.ToDecimal(Humiditys["value"]) AS Humidity
+    FROM @jsonRows2;
+    
+INSERT INTO WeatherData (
+    Zone,
+    Filename,
+    Id,
+    Station,
+    EventDate,
+    Temperature,
+    WindDirection,
+    WindSpeed,
+    Pressure,
+    Visibility,
+    Precipitation,
+    RelativeHumidity)
+    SELECT * FROM @splitRows;

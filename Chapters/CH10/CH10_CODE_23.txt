@@ -1,0 +1,1 @@
+Invoke-AzDataFactoryV2Pipeline -ResourceGroupName "ade-dev-eastus2" -DataFactoryName "ade-dev-eastus2-adf" -PipelineName "pipeline1"

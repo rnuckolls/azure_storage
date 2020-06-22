@@ -1,0 +1,45 @@
+{
+    "name": "AzureSqlTable1",
+    "properties": {
+        "linkedServiceName": {
+            "referenceName": "AzureSqlDatabase1",
+            "type": "LinkedServiceReference"
+        },
+        "annotations": [],
+        "type": "AzureSqlTable",
+        "schema": [
+            {
+                "name": "PlayerId",
+                "type": "nvarchar"
+            },
+            {
+                "name": "PlayerName",
+                "type": "nvarchar"
+            },
+            {
+                "name": "TeamName",
+                "type": "nvarchar"
+            },
+            {
+                "name": "TeamPosition",
+                "type": "nvarchar"
+            },
+            {
+                "name": "PositionStart",
+                "type": "datetime",
+                "precision": 23,
+                "scale": 3
+            },
+            {
+                "name": "PositionEnd",
+                "type": "datetime",
+                "precision": 23,
+                "scale": 3
+            }
+        ],
+        "typeProperties": {
+            "schema": "dbo",
+            "table": "PlayerDetails"
+        }
+    }
+}

@@ -1,0 +1,3 @@
+New-AzResourceGroup -Name "ade-dev-westus2" -Location "West US 2"
+New-AzSqlServer -ResourceGroupName "ade-dev-westus2" -Location "West US 2" -ServerName "ade-dev-westus2-sql" -ServerVersion "12.0" -SqlAdministratorCredentials (Get-Credential)
+New-AzSqlDatabaseSecondary -ResourceGroupName "ade-dev-eastus2" -ServerName "ade-dev-eastus2-sql" -DatabaseName "Playerstats" -PartnerResourceGroupName "ade-dev-westus2" -PartnerServerName "ade-dev-westus2-sql" -AllowConnections "All" -AsJob -SecondaryServiceObjectiveName "S0" 

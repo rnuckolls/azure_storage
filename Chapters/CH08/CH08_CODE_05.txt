@@ -1,0 +1,8 @@
+@view = SELECT s.Id, s.Player, s.Node, sn.NodeName, s.NodeValue, s.EventTime 
+	FROM [Players].[dbo].[v_Sensors] AS s
+	INNER JOIN [Players].[dbo].[v_SensorNames] AS sn
+	ON s.Node == sn.Id;
+
+OUTPUT @view
+    TO "/Sandbox/User1/Players.dbo.v_Sensors.tsv"
+    USING Outputters.Tsv();

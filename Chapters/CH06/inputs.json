@@ -1,0 +1,26 @@
+{
+    "properties": {
+        "type": "Stream",
+        "datasource": {
+            "type": "Microsoft.ServiceBus/EventHub", <1>
+            "properties": {
+                "eventHubName": "biometricstats", <2>
+                "serviceBusNamespace": "ade-dev-eastus2-hubs", <3>
+                "sharedAccessPolicyName": "RootManageSharedAccessKey", <4>
+                "sharedAccessPolicyKey": "==KEY==", <5>
+                "consumerGroupName": "" <6>
+                }
+        },
+        "compression": {
+            "type": "None"
+        },
+        "serialization": {
+            "type": "Json", <7>
+            "properties": {
+                "encoding": "UTF8"
+            }
+        }
+    },
+    "name": "HubsInputBiometrics",
+    "type": "Microsoft.StreamAnalytics/streamingjobs/inputs"
+}

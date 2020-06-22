@@ -1,0 +1,4 @@
+SELECT Player, Node, AVG(NodeValue) AS AvgValue
+FROM HubsInputBiometrics TIMESTAMP BY EventTime
+WHERE Player = 'abera101' AND Node = 12 AND NodeValue > 80
+GROUP BY Player, Node, TumblingWindow(second, 150)

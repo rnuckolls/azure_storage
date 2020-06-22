@@ -1,0 +1,16 @@
+USE DATABASE Players;
+DROP VIEW IF EXISTS v_SensorNames;
+CREATE VIEW v_SensorNames 
+    AS
+SELECT * 
+FROM (VALUES
+    (1,"Heartrate"),
+    (2,"Pulse"),
+    (3,"Temperature Chest"),
+    (4,"O2"),
+    (5,"Left Pectoralis"),
+    // Shortened for readability
+    (38,"Right Metatarsal Pressure"),
+    (39,"Unused"),
+    (40,"Unused")
+    ) AS r(Id,NodeName);

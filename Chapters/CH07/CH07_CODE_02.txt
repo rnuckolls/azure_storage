@@ -1,0 +1,8 @@
+DECLARE @out string = "/Staging/pitcherstats/v1/2019-10-11-12-0.csv";
+OUTPUT @Players
+    TO @out
+    USING Outputters.Csv();
+    
+OUTPUT @Players
+    TO "/Raw/pitcherstats/v1/pitcher/2019-10-11-12-0.tsv"
+    USING Outputters.Tsv();

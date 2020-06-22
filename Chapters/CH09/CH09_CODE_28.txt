@@ -1,0 +1,2 @@
+New-AzSqlServerFirewallRule -ResourceGroupName "ade-dev-eastus2" -ServerName "ade-dev-eastus2-sql" -AllowAllAzureIPs
+New-AzSqlServerFirewallRule -ResourceGroupName "ade-dev-eastus2" -ServerName "ade-dev-eastus2-sql" -FirewallRuleName "Onpremises" -StartIpAddress "192.168.0.198" -EndIpAddress "192.168.0.198"

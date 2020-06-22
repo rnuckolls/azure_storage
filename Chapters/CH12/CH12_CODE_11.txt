@@ -1,0 +1,1 @@
+Set-AzDataFactoryV2LinkedService -ResourceGroupName "ade-dev-eastus2" -DataFactoryName "ade-dev-eastus2-adf" -Name "AzureSqlDatabase1" -DefinitionFile "~/adf/AzureSqlDatabase1.json"

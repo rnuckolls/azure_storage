@@ -1,0 +1,5 @@
+USING new MultiLevelJsonExtractor(
+    "features[*]",
+    true,
+    "properties.@id"
+    );

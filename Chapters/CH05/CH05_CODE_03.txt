@@ -1,0 +1,2 @@
+New-AzEventHubNamespace -ResourceGroupName "ade-dev-eastus2" -NamespaceName "ade-dev-westus2-hubs" -Location "West US 2" -SkuName "Standard" -SkuCapacity 1 -Tag @{User="ADE";} -EnableAutoInflate -MaximumThroughputUnits 5
+New-AzEventHubGeoDRConfiguration -ResourceGroupName "ade-dev-eastus2" -Namespace "ade-dev-eastus2-hubs" -Name "ade-dev-hubs-alias" -PartnerNamespace "ade-dev-westus2-hubs"

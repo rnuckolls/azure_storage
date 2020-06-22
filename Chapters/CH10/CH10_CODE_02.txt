@@ -1,0 +1,3 @@
+$Secure = Read-Host -AsSecureString
+$App = New-AzADApplication -DisplayName "ade-dev-eastus2-adf-id" -IdentifierUris "http://none.none" -Password $Secure
+$App.ApplicationId.Guid

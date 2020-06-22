@@ -1,0 +1,1 @@
+CREATE EXTERNAL TABLE [dbo].[playerdetails] (PlayerId nvarchar(8),PlayerName nvarchar(100), TeamName nvarchar(100),TeamPosition nvarchar(100), PositionStart DateTime,PositionEnd DateTime) WITH (DATA_SOURCE = [ade-dev-eastus2-sql2-gamestats]);

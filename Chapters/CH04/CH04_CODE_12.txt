@@ -1,0 +1,1 @@
+"C:\Program Files (x86)\Microsoft SDKs\Azure\ADLCopy\adlcopy" /Source https://abc.blob.core.windows.net/project-abc/v1/v1.1 /Dest adl://abc.azuredatalakestore.net/iislogs/v1/v1.1/ /sourcekey ==StorageKey== /Pattern "ch*.csv"

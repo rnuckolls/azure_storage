@@ -1,0 +1,4 @@
+$Now = Get-Date
+$StartTime = $Now.AddMinutes(-15.0)
+$EndTime = $startTime.AddHours(24.0)
+New-AzStorageContainerSASToken -Name "finance" -Policy "AddFiles" -StartTime $StartTime -ExpiryTime $EndTime -Context (New-AzStorageContext -StorageAccountName  "adedeveastus2" -StorageAccountKey "<storage key>") -FullUri

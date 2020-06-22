@@ -1,0 +1,1 @@
+Set-AzDataLakeAnalyticsAccount -Name "adedeveastus2" -Tier "Commitment100AUHours"

@@ -1,0 +1,63 @@
+USE DATABASE Players;
+REFERENCE ASSEMBLY [Newtonsoft.Json];
+REFERENCE ASSEMBLY [Microsoft.Analytics.Samples.Formats];
+USING Microsoft.Analytics.Samples.Formats.Json;
+
+DECLARE @in = @"/Staging/weather.gov/v1/observations/{Zone}/{Filename}.json";
+
+@jsonRows = EXTRACT
+    Zone string,
+    Filename string,
+    id string,
+    station string,
+    timestamp DateTime,
+    temperature decimal?
+    windDirection decimal?,
+    windSpeed decimal?,
+    pressure decimal?,
+    visibility decimal?,
+    precipitation decimal?,
+    humidity decimal?
+    FROM @in
+    USING new MultiLevelJsonExtractor("features[*]",
+    true,
+    "properties.@id",
+    "properties.station",
+    "properties.timestamp",
+    "properties.temperature.value",
+    "properties.windDirection.value",
+    "properties.windSpeed.value",
+    "properties.barometricPressure.value",
+    "properties.visibility.value",
+    "properties.precipitationLastHour.value",
+    "properties.relativeHumidity.value");
+
+@cleanRows = SELECT
+    Zone,
+    Filename,
+    id AS Id,
+    station AS Station,
+    timestamp AS EventDate,
+    temperature ?? 0 AS Temperature,
+    windDirection ?? 0 AS WindDirection,
+    windSpeed ?? 0 AS WindSpeed,
+    pressure ?? 0 AS Pressure,
+    visibility ?? 0 AS Visibility,
+    precipitation ?? 0 AS Precipitation,
+    humidity ?? 0 AS Humidity
+    FROM @jsonRows;
+
+INSERT INTO WeatherData (
+    Zone,
+    Filename,
+    Id,
+    Station,
+    EventDate,
+    Temperature,
+    WindDirection,
+    WindSpeed,
+    Pressure,
+    Visibility,
+    Precipitation,
+    RelativeHumidity)
+    SELECT * FROM @cleanRows;

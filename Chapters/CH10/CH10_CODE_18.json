@@ -1,0 +1,18 @@
+{
+    "name": "Binary1",
+    "properties": {
+        "linkedServiceName": {
+            "referenceName": "AzureFileStorage1",
+            "type": "LinkedServiceReference"
+        },
+        "annotations": [],
+        "type": "Binary",
+        "typeProperties": {
+            "location": {
+                "type": "AzureFileStorageLocation",
+                "fileName": "access_01.csv",
+                "folderPath": "2019"
+            }
+        }
+    }
+}

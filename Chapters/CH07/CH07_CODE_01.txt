@@ -1,0 +1,13 @@
+DECLARE @in string = "/Staging/pitcherstats/v1/2019-10-11-12-0.csv";
+@input =
+    EXTRACT
+            Id Guid,
+            Player string,
+            Node int,
+            [Value] decimal,
+            EventTime DateTime,
+            PartitionId int,
+            EventEnqueuedUtcTime DateTime,
+            EventProcessedUtcTime DateTime
+    FROM @in
+    USING Extractors.Csv();

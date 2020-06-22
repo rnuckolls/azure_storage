@@ -1,0 +1,12 @@
+OUTPUT @CurrentPlayers
+TO "/Raw/Players/v1/activeplayers.csv"
+    USING Outputters.Text(
+    delimiter: ',',
+    dateTimeFormat: "o",
+    encoding: Encoding.UTF8,
+    escapeCharacter: '#',
+    nullEscape: "NULL",
+    quoting: true,
+    rowDelimiter: "\n",
+    charFormat: "uint16",
+    outputHeader: true);

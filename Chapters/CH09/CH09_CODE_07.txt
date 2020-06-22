@@ -1,0 +1,30 @@
+USE DATABASE master;
+REFERENCE ASSEMBLY ImageCommon;
+REFERENCE ASSEMBLY FaceSdk;
+DECLARE @in = "/Staging/Stadium/{Camera}/{FileName}.jpg";
+@people = EXTRACT
+    Camera string,
+    FileName string, 
+    NumFaces int, 
+    FaceIndex int, 
+    RectX float, RectY float, Width float, Height float, 
+    FaceAge int, 
+    FaceGender string
+    FROM @in
+    USING new Cognition.Vision.FaceDetectionExtractor();
+
+@peopleRange = 
+    SELECT FaceGender,
+    (FaceAge >= 0 && FaceAge < 20) ? "Child" :
+    (FaceAge >= 20 && FaceAge < 65) ? "Adult" :
+    "Retired" AS AgeCategory <4>
+    FROM @people;
+@peopleCount = 
+    SELECT FaceGender,
+    AgeCategory,
+    COUNT(FaceGender) AS CountOfPeople
+    FROM @peopleRange
+    GROUP BY FaceGender, AgeCategory;
+OUTPUT @peopleCount
+TO @"/Sandbox/User1/Stadium/peopletest.csv"
+USING Outputters.Csv();

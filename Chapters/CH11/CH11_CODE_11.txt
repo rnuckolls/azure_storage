@@ -1,0 +1,1 @@
+Set-AzSqlDatabase -ResourceGroupName "ade-dev-eastus2" -DatabaseName "ade-dev-PlayerStats" -ServerName "ade-dev-eastus2-sql" -Edition "Hyperscale" -VCore 1 -ReadReplicaCount 0 -AsJob

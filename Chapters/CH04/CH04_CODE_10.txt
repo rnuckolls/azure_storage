@@ -1,0 +1,4 @@
+New-AzDataLakeStoreItem -AccountName "adedeveastus2" -Path "/Sandbox" -Folder
+New-AzDataLakeStoreItem -AccountName "adedeveastus2" -Path "/Sandbox/User1" -Folder
+New-AzDataLakeStoreItem -AccountName "adedeveastus2" -Path "/Sandbox/User2" -Folder
+New-AzDataLakeStoreItem -AccountName "adedeveastus2" -Path "/Sandbox/User3" -Folder

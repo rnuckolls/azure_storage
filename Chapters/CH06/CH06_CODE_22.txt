@@ -1,0 +1,16 @@
+WITH PitchAnomaly AS (
+SELECT Player, Node, CAST(NodeValue AS FLOAT) AS NodeValue,
+AnomalyDetection_SpikeAndDip(CAST(NodeValue AS FLOAT), 90, 15, 'dips')
+OVER (
+PARTITION BY Player
+LIMIT DURATION(minute, 40)
+WHEN Node = 12 AND NodeValue > 80
+)
+AS ADValues
+FROM HubsInputBiometrics
+)
+SELECT Player, NodeValue,
+CAST(GetRecordPropertyValue(ADValues, 'Score') as FLOAT) AS Score
+INTO SqlOutputPitcher
+FROM PitchAnomaly
+WHERE CAST(GetRecordPropertyValue(ADValues, 'IsAnomaly') AS BIGINT) = 1;

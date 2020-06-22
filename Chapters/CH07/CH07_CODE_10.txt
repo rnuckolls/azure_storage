@@ -1,0 +1,29 @@
+DECLARE EXTERNAL @in string = "/Staging/biometricstats/v1/{*}.csv";
+
+@Players =
+    EXTRACT
+        Id Guid,
+        Player string,
+        Node int,
+        NodeValue decimal,
+        EventTime DateTime,
+        PartitionId int,
+        EventEnqueuedUtcTime DateTime,
+        EventProcessedUtcTime DateTime
+    FROM @in
+    USING Extractors.Csv(skipFirstNRows: 1);
+
+@DailyAgg = 
+    SELECT 	
+        Player,
+        Node,
+        EventTime.ToString("d") AS AvgDate,
+        AVG([Value]) AS Average
+    FROM @Players
+    GROUP BY Player, Node, EventTime.ToString("d");
+
+DECLARE EXTERNAL @out string = "/Curated/biometricstats/v1/daily_value_avg.csv";
+
+OUTPUT @DailyAgg
+    TO @out
+    USING Outputters.Csv(outputHeader: true);

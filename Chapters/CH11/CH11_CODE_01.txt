@@ -1,0 +1,1 @@
+Set-AzSqlServer -ResourceGroupName "ade-dev-eastus2" -ServerName "ade-dev-eastus2-sql" -SqlAdministratorPassword (Read-Host "Enter Password" -AsSecureString)

@@ -1,0 +1,1 @@
+CREATE EXTERNAL DATA SOURCE [ade-dev-eastus2-sql2-gamestats] WITH (TYPE = RDBMS, LOCATION = 'ade-dev-eastus2-sql2.database.windows.net', DATABASE_NAME = 'ade-dev-sql2-gamestats', CREDENTIAL = [ade-dev-sql2-gamestats-user]);

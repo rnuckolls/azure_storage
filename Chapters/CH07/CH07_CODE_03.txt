@@ -1,0 +1,4 @@
+DECLARE @Year int = 2020;
+
+DECLARE EXTERNAL @Year int = 2019;
+// Year = 2020

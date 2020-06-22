@@ -1,0 +1,8 @@
+USE DATABASE Players;
+DROP VIEW IF EXISTS v_SensorNames;
+CREATE VIEW v_SensorNames
+    AS  
+EXTRACT Id int,
+        NodeName string
+    FROM "/Raw/Sensor/v1/SensorNames.txt"
+    USING Extractors.Tsv();

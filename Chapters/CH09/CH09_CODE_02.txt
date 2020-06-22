@@ -1,0 +1,3 @@
+DROP ASSEMBLY [CodeName];
+CREATE ASSEMBLY [CodeName]
+FROM @"/Code/Assemblies/Database/Program/v1/CodeName.dll";

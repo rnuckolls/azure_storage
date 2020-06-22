@@ -1,0 +1,1 @@
+New-AzStorageAccount -ResourceGroupName "ade-dev-eastus2" -Location "East US 2" -AccountName "adedeveastus2" -EnableHttpsTrafficOnly 1 -SkuName Standard_LRS

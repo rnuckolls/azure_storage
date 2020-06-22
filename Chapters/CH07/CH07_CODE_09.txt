@@ -1,0 +1,5 @@
+DECLARE EXTERNAL @out string = "/Curated/biometricstats/v1/daily_value_avg.csv";
+
+OUTPUT @DailyAgg
+    TO @out
+    USING Outputters.Csv(outputHeader: true);

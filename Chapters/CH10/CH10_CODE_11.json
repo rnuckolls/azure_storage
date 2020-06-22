@@ -1,0 +1,19 @@
+{
+    "name": "AzureFileStorage1",
+    "properties": {
+        "annotations": [],
+        "type": "AzureFileStorage",
+        "typeProperties": {
+            "host": "\\\\adedeveastus2.file.core.windows.net\\accesscard",
+            "userId": "AZURE\\adedeveastus2",
+            "password": {
+                "type": "AzureKeyVaultSecret",
+                "store": {
+                    "referenceName": "AzureKeyVault1",
+                    "type": "LinkedServiceReference"
+                },
+                "secretName": "abedeveastus2-files-key"
+            }
+        }
+    }
+}

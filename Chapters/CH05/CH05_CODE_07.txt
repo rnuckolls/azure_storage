@@ -1,0 +1,12 @@
+$eh = Get-AzEventHub -ResourceGroupName ade-dev-eastus2 -NamespaceName ade-dev-eastus2-hubs -Name biometricstats
+$storageId = (Get-AzStorageAccount -ResourceGroupName ade-dev-eastus2 -Name adedeveastus2).Id
+$eh.CaptureDescription = New-Object -TypeName Microsoft.Azure.Commands.EventHub.Models.PSCaptureDescriptionAttributes
+$eh.CaptureDescription.Enabled = $true
+$eh.CaptureDescription.IntervalInSeconds  = 900
+$eh.CaptureDescription.Encoding  = "Avro"
+$eh.CaptureDescription.SizeLimitInBytes = 524288000
+$eh.CaptureDescription.Destination.Name = "EventHubArchive.AzureBlockBlob"
+$eh.CaptureDescription.Destination.BlobContainer = "players"
+$eh.CaptureDescription.Destination.ArchiveNameFormat = "{Namespace}/{EventHub}/{PartitionId}/{Year}/{Month}/{Day}/{Hour}/{EventHub}_{PartitionId}_{Year}_{Month}_{Day}_{Hour}_{Minute}_{Second}"
+$eh.CaptureDescription.Destination.StorageAccountResourceId = $storageId
+Set-AzEventHub -ResourceGroupName ade-dev-eastus2 -NamespaceName ade-dev-eastus2-hubs -Name biometricstats -InputObject $eh
