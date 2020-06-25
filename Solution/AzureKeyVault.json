@@ -1,0 +1,10 @@
+{
+    "name": "AzureKeyVault1",
+    "properties": {
+        "annotations": [],
+        "type": "AzureKeyVault",
+        "typeProperties": {
+            "baseUrl": "https://eastus2-jonestown-dev-ky.vault.azure.net/"
+        }
+    }
+}

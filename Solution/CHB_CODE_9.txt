@@ -1,0 +1,50 @@
+# Data Factory
+$adfName = ($rgName + "-" + "adf")
+$adfAppName = ($adfName + "-" + "id")
+# App registration
+$App = Get-AzADApplication -DisplayName $adfAppName
+if ([string]::IsNullOrWhiteSpace($App))
+{
+# Enter new app password
+$Secure = Read-Host -AsSecureString 
+$App = New-AzADApplication -DisplayName $adfAppName `
+-IdentifierUris ("http://" + $rgName + "-adf.none") -Password $Secure 
+}
+$adfGuid = $App.ApplicationId.Guid 
+
+$notPresent = Get-AzADServicePrincipal -DisplayName $adfAppName
+if ([string]::IsNullOrWhiteSpace($notPresent))
+{
+New-AzADServicePrincipal -ApplicationId $adfGuid
+}
+# Give Data Factory access to Data Lake store
+$principal = Get-AzADServicePrincipal -DisplayName $adfAppName
+Set-AzDataLakeStoreItemAclEntry -AccountName $storeName -Path / `
+-AceType User -Id $principal.Id -Permissions All -Recurse 
+Set-AzDataLakeStoreItemAclEntry -AccountName $storeName -Path / `
+-AceType User -Id $principal.Id -Permissions All -Recurse -Default
+
+
+# Key Vault
+# Find your AAD user and add access policy
+$user = "[USER]_[DOMAIN].com#EXT#@[USER][DOMAIN].onmicrosoft.com"
+$userId = (Get-AzADUser -UserPrincipalName $user).Id
+Set-AzKeyVaultAccessPolicy -VaultName ($rgName + "-" + "ky") `
+-ObjectId $userId -PermissionsToSecrets Get,List,Set,Delete
+
+$vaultName = ($rgName + "-" + "ky")
+$principal = (Get-AzDataFactoryV2 -ResourceGroupName $rgName -Name $adfName).Identity.PrincipalId.Guid
+Set-AzKeyVaultAccessPolicy -VaultName $vaultName -ObjectId $principal -PermissionsToSecrets Get,List 
+
+# Add Data Factory key
+$Secret = Read-Host -AsSecureString
+Set-AzKeyVaultSecret -VaultName $vaultName `
+-Name ($factoryName + "-" + "key") -SecretValue $Secret `
+-ContentType "key"
+
+# Add SQL Database user
+# Enter remoteuser password from SQL Database configuration
+$Secret = Read-Host -AsSecureString
+Set-AzKeyVaultSecret -VaultName $vaultName `
+-Name ($rgName + "-" + "sql" + "-" + "stats") -SecretValue $Secret `
+-ContentType "key"

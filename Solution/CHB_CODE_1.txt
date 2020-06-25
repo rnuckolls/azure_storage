@@ -1,0 +1,9 @@
+# Define the named parts for your system
+$region = "eastus2"
+$regionName = "East US 2"
+$client = "jonestown"
+$env = "dev"
+$rgName = $region + "-" + $client + "-" + $env
+$storeName = $region + $client + $env
+$ipAddress = "192.168.0.1"
+$project = "biometricstats"

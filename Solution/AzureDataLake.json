@@ -1,0 +1,23 @@
+{
+    "name": "AzureDataLakeStore1",
+    "type": "Microsoft.DataFactory/factories/linkedservices",
+    "properties": {
+        "annotations": [],
+        "type": "AzureDataLakeStore",
+        "typeProperties": {
+            "dataLakeStoreUri": "https://eastus2jonestowndev.azuredatalakestore.net/webhdfs/v1",
+            "servicePrincipalId": "12345678-904b-4948-abb6-123456789012",
+            "servicePrincipalKey": {
+                "type": "AzureKeyVaultSecret",
+                "store": {
+                    "referenceName": "AzureKeyVault1",
+                    "type": "LinkedServiceReference"
+                },
+                "secretName": "eastus2-jonestown-dev-adf-key"
+            },
+            "tenant": "12345678-812a-43cf-b020-123456789012",
+            "subscriptionId": "12345678-7061-4721-abbc-123456789012",
+            "resourceGroupName": "eastus2-jonestown-dev"
+        }
+    }
+}

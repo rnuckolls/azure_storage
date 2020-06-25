@@ -1,0 +1,26 @@
+{
+   "properties":{
+      "datasource":{
+            "type":"Microsoft.Storage/Blob",
+            "properties":{
+                "container":"biometricstats",
+                "pathPattern":"{date}/{time}",
+                "dateFormat":"yyyy/MM/dd",
+                "timeFormat":"HH",
+                "storageAccounts":[
+                {
+                   "accountName":"eastus2jonestowndev",
+                   "accountKey": "==key=="
+                }
+         ]
+         }
+      },
+      "serialization":{
+         "type":"CSV",
+         "properties": {
+            "encoding": "UTF8",
+            "fieldDelimiter":","
+        }
+    }
+   }
+}

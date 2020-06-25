@@ -1,0 +1,31 @@
+{
+    "properties":{
+        "streamingUnits":1, 
+        "query":"WITH PitchAverage AS (
+SELECT Player, Node, AVG(NodeValue) AS AvgValue
+FROM HubsInputBiometrics TIMESTAMP BY EventTime
+WHERE Player = 'abera101' AND Node = 12 AND NodeValue > 80
+GROUP BY Player, Node, TumblingWindow(second, 150)
+)
+SELECT a.Player, a.NodeValue, b.AvgValue
+INTO BlobOutputPitcher
+FROM HubsInputBiometrics a TIMESTAMP BY EventTime
+INNER JOIN PitchAverage b
+ON a.Player = b.Player
+AND a.Node = b.Node
+AND DATEDIFF(second, a, b) BETWEEN 0 AND 150
+WHERE a.NodeValue > 80;
+
+SELECT
+Id, 
+NodeValue,
+Player,
+Node,
+EventTime,
+PartitionId, 
+EventProcessedUtcTime, 
+EventEnqueuedUtcTime 
+INTO DataLakeOutputRaw 
+FROM HubsInputBiometrics TIMESTAMP BY EventTime;" 
+   }
+}
