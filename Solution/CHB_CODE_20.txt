@@ -1,45 +1,21 @@
-# Write data to Event Hubs
-$hubsName = $rgName + "-" + "hubs"
-[Reflection.Assembly]::LoadWithPartialName("System.Web") | out-null 
+# Add Key Vault Linkedservice
+cd adf
+Set-AzDataFactoryV2LinkedService -ResourceGroupName $rgName -DataFactoryName $adfName -Name "AzureKeyVault" -DefinitionFile "./AzureKeyVault.json"
+# Add Data lake Linkedservice
+Set-AzDataFactoryV2LinkedService -ResourceGroupName $rgName -DataFactoryName $adfName -Name "AzureDataLake" -DefinitionFile "./AzureDataLake.json"
+# Add Data Lake Analytics Linkedservice
+Set-AzDataFactoryV2LinkedService -ResourceGroupName $rgName -DataFactoryName $adfName -Name "AzureDataLakeAnalytics" -DefinitionFile "./AzureDataLakeAnalytics.json"
+# Add SQL Database Linkedservice
+Set-AzDataFactoryV2LinkedService -ResourceGroupName $rgName -DataFactoryName $adfName -Name "AzureSQLDatabase" -DefinitionFile "./AzureSQLDatabase.json"
 
-$key = Get-AzEventHubKey -ResourceGroupName $rgName -NamespaceName $hubsName -AuthorizationRuleName "hubswriter"
-$URI= $hubsName + ".servicebus.windows.net/" + $project
+# Add Player average file dataset
+Set-AzDataFactoryV2Dataset -ResourceGroupName $rgName -DataFactoryName $adfName -Name "PlayerAverageFile" -DefinitionFile "./PlayerAverageFile.json"
+# Add Player average table dataset
+Set-AzDataFactoryV2Dataset -ResourceGroupName $rgName -DataFactoryName $adfName -Name "PlayerAverageTable" -DefinitionFile "./PlayerAverageTable.json"
 
-$Expires=([DateTimeOffset]::Now.ToUnixTimeSeconds())+3600 
-$SignatureString=[System.Web.HttpUtility]::UrlEncode($URI)+ "`n" + [string]$Expires 
-$HMAC = New-Object System.Security.Cryptography.HMACSHA256
-$HMAC.key = [Text.Encoding]::ASCII.GetBytes($key.PrimaryKey) 
-$Signature = $HMAC.ComputeHash([Text.Encoding]::ASCII.GetBytes($SignatureString)) 
-$Signature = [Convert]::ToBase64String($Signature) 
-$SASToken = "SharedAccessSignature sr=" + [System.Web.HttpUtility]::UrlEncode($URI) + "&sig=" + [System.Web.HttpUtility]::UrlEncode($Signature) + "&se=" + $Expires + "&skn=" + $key.KeyName 
+# Add pipeline
+Set-AzDataFactoryV2Pipeline -ResourceGroupName $rgName -DataFactoryName $adfName -Name "Pipeline" -File "./Pipeline.json"
 
-$endpoint = "https://" + $hubsName + ".servicebus.windows.net/" + $project + "/messages" + "?timeout=60&api-version=2014-01"
-
-$headers = New-Object "System.Collections.Generic.Dictionary[[String],[String]]"
-$headers.Add("Authorization", $SASToken)
-$headers.Add("Content-Type", "application/atom+xml;type=entry;charset=utf-8")
-$headers.Add("Host", ($hubsName + ".servicebus.windows.net"))
-
-for($i = 0; $i -lt 14400; $i++)
-{
-$player = switch (Get-Random -Minimum 1 -Maximum 4) {
-  1 {"abera101"; break}
-  2 {"jjone101"; break}
-  3 {"ksmit102"; break}
-}
-$node = GET-Random -Minimum 1 -Maximum 40
-$val = Get-Random -Minimum 0 -Maximum 254
-$eventDate = (Get-Date).ToUniversalTime().ToString("o")
-
-#Construct body using Hashtable
-$htbody = @{ 
-    Id=(New-Guid).Guid 
-    Player= $player
-    Node= $node
-    NodeValue= $val
-    EventTime= $eventDate
-  }
-$body = ConvertTo-Json $htbody
-
-Invoke-WebRequest -Uri $endpoint -Method POST -Body $body -Headers $headers
-}
+# Add trigger
+Set-AzDataFactoryV2Trigger -ResourceGroupName $rgName -DataFactoryName $adfName -Name "Trigger" -File "./Pipeline.json"
+Start-AzDataFactoryV2Trigger -ResourceGroupName $rgName -DataFactoryName $adfName -Name "Trigger"

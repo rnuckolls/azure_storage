@@ -1,4 +1,26 @@
-# Subscription and Account
-Get-AzSubscription
-# Data Factory Service Principal
-Get-AzADServicePrincipal -DisplayName ($adfName + "-" + "id")
+# Key Vault
+$vaultName = ($rgName + "-" + "ky")
+
+Get-AzDataFactoryV2LinkedService -ResourceGroupName $rgName `
+-DataFactoryName $adfName -Name "AzureKeyVault1" `
+-ErrorVariable notPresent
+
+if ($notPresent)
+{
+mkdir adf
+cd adf
+$akvConfig = @{}
+$akvProp = @{}
+$akvType = @{baseUrl=("https://" + $vaultName + ".vault.azure.net")}
+$akvProp.Add("typeProperties",$akvType)
+$akvProp.Add("type","AzureKeyVault")
+$akvConfig.Add("properties",$akvProp)
+$akvConfig.Add("name","AzureKeyVault1")
+$akvConfig | ConvertTo-Json -Depth 10 | `
+Out-File -FilePath ./AzureKeyVault.json
+Set-AzDataFactoryV2LinkedService -ResourceGroupName $rgName `
+-DataFactoryName $adfName -Name "AzureKeyVault1" `
+-DefinitionFile "./AzureKeyVault.json"
+}
+
+

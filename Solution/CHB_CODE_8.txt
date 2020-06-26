@@ -1,36 +1,34 @@
-# SQL Server
-$sqlName = $rgName + "-" + "sql"
-$dbName = $sqlName + "-" + "stats"
-New-AzSqlServerFirewallRule -ResourceGroupName $rgName `
--ServerName $sqlName -AllowAllAzureIPs 
-New-AzSqlServerFirewallRule -ResourceGroupName $rgName `
--ServerName $sqlName -FirewallRuleName "Onpremises" `
--StartIpAddress $ipAddress -EndIpAddress $ipAddress
+DECLARE EXTERNAL @year string = DateTime.Today.AddDays(-1).Year.ToString("#0000");
+DECLARE EXTERNAL @month string = DateTime.Today.AddDays(-1).Month.ToString("#00");
+DECLARE EXTERNAL @day string = DateTime.Today.AddDays(-1).Day.ToString("#00");
+DECLARE EXTERNAL @in string = string.Format("/Staging/biometricstats/{0}-{1}-{2}{3}.csv", @year, @month, @day, "{*}");
 
-# Add user and login
-$sqlAddress = ("tcp:" + $sqlName + ".database.windows.net" )
-# Provide SQL Server admin and password
-$sqlCred = Credential (Get-Credential)
-$YOURPASSWORD = "MMMMMMMMMm.1"
-Invoke-Sqlcmd `
--ServerInstance $sqlAddress -Database "master" -Credential $sqlCred `
--Query ("IF NOT EXISTS(SELECT sid FROM sys.sql_logins WHERE name = 'remoteuser') `
-BEGIN CREATE LOGIN remoteuser WITH PASSWORD = '" + $YOURPASSWORD + "'; END")
+@Players =
+    EXTRACT
+        Id Guid,
+        NodeValue decimal,
+        Player string,
+        Node int,
+        EventTime DateTime,
+        PartitionId int,
+        EventEnqueuedUtcTime DateTime,
+        EventProcessedUtcTime DateTime
+    FROM @in
+    USING Extractors.Csv(
+    skipFirstNRows: 1
+    );
 
-Invoke-Sqlcmd -ServerInstance $sqlAddress `
--Database ($sqlName + "-" + "stats") -Credential $sqlCred `
--Query "IF NOT EXISTS(SELECT uid FROM sys.sysusers WHERE name = 'remoteuser') `
-BEGIN CREATE USER remoteuser FOR LOGIN remoteuser; END"
-Invoke-Sqlcmd -ServerInstance $sqlAddress `
--Database ($sqlName + "-" + "stats") -Credential $sqlCred `
--Query "ALTER ROLE db_datareader ADD MEMBER remoteuser;" 
-Invoke-Sqlcmd -ServerInstance $sqlAddress `
--Database ($sqlName + "-" + "stats") -Credential $sqlCred `
--Query "ALTER ROLE db_datawriter ADD MEMBER remoteuser;" 
+@DailyAgg =
+    SELECT
+        Player,
+        Node,
+        EventTime.ToString("d") AS AvgDate,
+        AVG(NodeValue) AS Average
+    FROM @Players
+    GROUP BY Player, Node, EventTime.ToString("d");
 
-# Add data table
-Invoke-Sqlcmd -ServerInstance $sqlAddress `
--Database ($sqlName + "-" + "stats") -Credential $sqlCred `
--Query "DROP TABLE IF EXISTS DailyAverages; `
-CREATE TABLE DailyAverages (Player nvarchar(50), Node int, `
-AverageDate DateTime, AverageValue decimal(18,9));"
+DECLARE EXTERNAL @out string = "/Curated/biometricstats/v1/daily_value_avg.csv";
+
+OUTPUT @DailyAgg
+    TO @out
+    USING Outputters.Csv(outputHeader: true);

@@ -1,34 +1,37 @@
-DECLARE EXTERNAL @year string = DateTime.Today.AddDays(-1).Year.ToString("#0000");
-DECLARE EXTERNAL @month string = DateTime.Today.AddDays(-1).Month.ToString("#00");
-DECLARE EXTERNAL @day string = DateTime.Today.AddDays(-1).Day.ToString("#00");
-DECLARE EXTERNAL @in string = string.Format("/Staging/biometricstats/{0}-{1}-{2}{3}.csv", @year, @month, @day, "{*}");
+# Data Lake store
+# Add Data Factory permissions
+$principal = Get-AzADServicePrincipal -DisplayName ($rgName + "-" + "adf")
 
-@Players =
-    EXTRACT
-        Id Guid,
-        NodeValue decimal,
-        Player string,
-        Node int,
-        EventTime DateTime,
-        PartitionId int,
-        EventEnqueuedUtcTime DateTime,
-        EventProcessedUtcTime DateTime
-    FROM @in
-    USING Extractors.Csv(
-    skipFirstNRows: 1
-    );
+Set-AzDataLakeStoreItemAclEntry -AccountName $storeName -Path / `
+-AceType User -Id $principal.Id -Permissions Execute 
 
-@DailyAgg =
-    SELECT
-        Player,
-        Node,
-        EventTime.ToString("d") AS AvgDate,
-        AVG(NodeValue) AS Average
-    FROM @Players
-    GROUP BY Player, Node, EventTime.ToString("d");
+New-AzDataLakeStoreItem -AccountName $storeName -Path "/Staging" -Folder 
+New-AzDataLakeStoreItem -AccountName $storeName -Path "/Raw" -Folder 
+New-AzDataLakeStoreItem -AccountName $storeName -Path "/Curated" -Folder 
+New-AzDataLakeStoreItem -AccountName $storeName -Path "/Sandbox" -Folder 
+New-AzDataLakeStoreItem -AccountName $storeName -Path "/Code" -Folder 
 
-DECLARE EXTERNAL @out string = "/Curated/biometricstats/v1/daily_value_avg.csv";
+Set-AzDataLakeStoreItemAclEntry -AccountName $storeName `
+-Path /Staging -AceType User -Id $principal.Id -Permissions All -Default 
+Set-AzDataLakeStoreItemAclEntry -AccountName $storeName `
+-Path /Raw -AceType User -Id $principal.Id -Permissions All -Default 
+Set-AzDataLakeStoreItemAclEntry -AccountName $storeName `
+-Path /Curated -AceType User -Id $principal.Id -Permissions All -Default 
+Set-AzDataLakeStoreItemAclEntry -AccountName $storeName `
+-Path /Code -AceType User -Id $principal.Id -Permissions All -Default 
 
-OUTPUT @DailyAgg
-    TO @out
-    USING Outputters.Csv(outputHeader: true);
+# Add Stream Analytics permissions
+$principal = Get-AzADServicePrincipal -DisplayName ($rgName + "-" + "asa" + "-" + $project)
+
+Set-AzDataLakeStoreItemAclEntry -AccountName $storeName -Path / `
+-AceType User -Id $principal.Id -Permissions Execute 
+
+Set-AzDataLakeStoreItemAclEntry -AccountName $storeName `
+-Path /Staging -AceType User -Id $principal.Id -Permissions All
+Set-AzDataLakeStoreItemAclEntry -AccountName $storeName `
+-Path /Staging -AceType User -Id $principal.Id -Permissions All -Default 
+
+New-AzDataLakeStoreItem -AccountName $storeName -Path ("/Staging/" + $project) -Folder
+New-AzDataLakeStoreItem -AccountName $storeName -Path "/Code/Assemblies" -Folder
+New-AzDataLakeStoreItem -AccountName $storeName -Path "/Code/Usql" -Folder
+
