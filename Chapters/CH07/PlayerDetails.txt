@@ -1,0 +1,16 @@
+"PlayerId"	"PlayerName"	"TeamName"	"TeamPosition"	"PositionStart"	"PositionEnd"
+"abera101"	"Arnold Berathal"	"Jonestown Sluggers"	"Pitcher"	2010-07-11T00:00:00.0000000Z	2020-07-11T00:00:00.0000000Z
+"jstro101"	"John Strong"	"Poplar Bats"	"First Base"	2010-07-11T00:00:00.0000000Z	2020-07-11T00:00:00.0000000Z
+"jstro102"	"John Strong"	"Poplar Bats"	"Second Base"	2010-07-11T00:00:00.0000000Z	
+"mpete101"	"Mike Peters"	"Harrisburg Drivers"	"Catcher"	2018-07-11T00:00:00.0000000Z	2021-07-11T00:00:00.0000000Z
+"mjone101"	"Michael Jones"	"Harrisburg Drivers"	"First Base"	2018-07-11T00:00:00.0000000Z	
+"kline101"	"Kirk Lines"	"Jonestown Sluggers"	"Catcher"	2010-07-11T00:00:00.0000000Z	
+"pharv101"	"Phil Harvey"	"Harrisburg Drivers"	"Left Field"	2018-07-11T00:00:00.0000000Z	
+"pharv102"	"Phillip Harvest"	"Harrisburg Drivers"	"Pitcher"	2018-07-11T00:00:00.0000000Z	2021-07-11T00:00:00.0000000Z
+"mharr101"	"Mark Harris"	"Poplar Bats"	"Left Field"	2010-07-11T00:00:00.0000000Z	2012-07-11T00:00:00.0000000Z
+"lgime101"	"Larry Gimelston"	"Ames Arrows"	"First Base"	2010-07-11T00:00:00.0000000Z	2012-07-11T00:00:00.0000000Z
+"jhome101"	"James Homes"	"Jonestown Sluggers"	"Pitcher"	2010-07-11T00:00:00.0000000Z	2020-07-11T00:00:00.0000000Z
+"jillo101"	"Jack Illon"	"Ames Arrows"	"Third Base"	2014-07-11T00:00:00.0000000Z	2021-07-11T00:00:00.0000000Z
+"mlong101"	"Mike Long"	"Ames Arrows"	"First Base"	2012-07-11T00:00:00.0000000Z	
+"kmoon101"	"Karl Moon"	"Jonestown Sluggers"	"Short Stop"	2010-07-11T00:00:00.0000000Z	
+"kmoon102"	"Keith Moonshine"	"Jonestown Sluggers"	"Center Field"	2014-07-11T00:00:00.0000000Z	2021-07-11T00:00:00.0000000Z
