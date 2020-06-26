@@ -1,0 +1,41 @@
+1	Heartrate
+2	Pulse
+3	Temperature Chest
+4	O2
+5	Left Pectoralis
+6	Right Pectoralis
+7	Left Latissimus
+8	Right Latissimus
+9	Left Trapezius
+10	Right Trapezius
+11	Erector Spinae
+12	Left Deltoid
+13	Right Deltoid
+14	Left Shoulder Rotation
+15	Right Shoulder Rotation
+16	Left Biceps
+17	Right Biceps
+18	Left Elbow Rotation
+19	Right Elbow Rotation
+20	Respiration Rate
+21	Temperature Groin
+22	Rectus Abdominis
+23	Left Gluteus Maximus
+24	Right Gluteus Maximus
+25	Left Hip Extension
+26	Right Hip Extension
+27	Left Rectus Femoris
+28	Right Rectus Femoris
+29	Left Knee Rotation
+30	Right Knee Rotation
+31	Left Gastroc
+32	Right Gastroc
+33	Left Foot Extension
+34	Right Foot Extension
+35	Left Heel Pressure
+36	Right Heel Pressure
+37	Left Metatarsal Pressure
+38	Right Metatarsal Pressure
+39	Unused
+40	Unused
+
