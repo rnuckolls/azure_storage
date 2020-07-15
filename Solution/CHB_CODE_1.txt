@@ -1,9 +1,25 @@
 # Define the named parts for your system
+# Choose the region
 $region = "eastus2"
 $regionName = "East US 2"
-$client = "jonestown"
+# Choose unique client name
+$client = "jones"
 $env = "dev"
-$rgName = $region + "-" + $client + "-" + $env
-$storeName = $region + $client + $env
-$ipAddress = "192.168.0.1"
 $project = "biometricstats"
+$rgName = $region + "-" + $client + "-" + $env
+# Make sure RG name is less than 21 characters
+("RG name length " + $rgName.length)
+$storeName = $region + $client + $env
+# Make sure Storage name is less than 25 characters
+("Storage name length " + $storeName.length)
+$hubsName = $rgName + "-" + "hubs"
+$streamName = $rgName + "-" + "asa" + "-" + $project
+$sqlName = $rgName + "-" + "sql"
+$dbName = $sqlName + "-" + "stats"
+$vaultName = $rgName + "-" + "key"
+# Make sure AKV name is less than 25 characters
+("AKV name length " + $vaultName.length)
+$adfName = $rgName + "-" + "adf"
+$adfAppName = $adfName + "-" + "id"
+# Lookup your workstation public IP Address
+$ipAddress = "192.168.0.1"

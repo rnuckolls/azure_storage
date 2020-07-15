@@ -1,4 +1,47 @@
-# Subscription and Account
-Get-AzSubscription
-# Data Factory Service Principal
-Get-AzADServicePrincipal -DisplayName ($adfName + "-" + "id")
+# Data Factory
+# App registration
+$App = Get-AzADApplication -DisplayName $adfAppName
+if ([string]::IsNullOrWhiteSpace($App))
+{
+# Enter new app password
+$Secure = Read-Host -AsSecureString -Prompt "Enter new app password"
+$App = New-AzADApplication -DisplayName $adfAppName `
+-IdentifierUris ("https://" + $adfName + ".none") -Password $Secure 
+}
+$adfGuid = $App.ApplicationId.Guid 
+
+$notPresent = Get-AzADServicePrincipal -DisplayName $adfAppName
+if ([string]::IsNullOrWhiteSpace($notPresent))
+{
+New-AzADServicePrincipal -ApplicationId $adfGuid
+}
+# Give Data Factory access to Data Lake store
+$principal = Get-AzADServicePrincipal -DisplayName $adfAppName
+Set-AzDataLakeStoreItemAclEntry -AccountName $storeName -Path / `
+-AceType User -Id $principal.Id -Permissions All -Recurse 
+Set-AzDataLakeStoreItemAclEntry -AccountName $storeName -Path / `
+-AceType User -Id $principal.Id -Permissions All -Recurse -Default
+
+
+# Key Vault
+# Find your AAD user and add access policy, so that following steps succeed
+$user = "[USER]_[DOMAIN].com#EXT#@[USER][DOMAIN].onmicrosoft.com"
+$userId = (Get-AzADUser -UserPrincipalName $user).Id
+Set-AzKeyVaultAccessPolicy -VaultName $vaultName `
+-ObjectId $userId -PermissionsToSecrets Get,List,Set,Delete
+
+$principal = (Get-AzDataFactoryV2 -ResourceGroupName $rgName -Name $adfName).Identity.PrincipalId.Guid
+Set-AzKeyVaultAccessPolicy -VaultName $vaultName -ObjectId $principal -PermissionsToSecrets Get,List 
+
+# Add Data Factory key
+$Secret = Read-Host -AsSecureString -Prompt "Enter registered app password"
+Set-AzKeyVaultSecret -VaultName $vaultName `
+-Name ($adfName + "-" + "key2") -SecretValue $Secret `
+-ContentType "key"
+
+# Add SQL Database user
+# Enter remoteuser password from SQL Database configuration
+$Secret = Read-Host -AsSecureString -Prompt "Enter remoteuser password from SQL Database"
+Set-AzKeyVaultSecret -VaultName $vaultName `
+-Name ($dbName + "-" + "2") -SecretValue $Secret `
+-ContentType "key"

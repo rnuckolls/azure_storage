@@ -1,5 +1,4 @@
 # Write data to Event Hubs
-$hubsName = $rgName + "-" + "hubs"
 [Reflection.Assembly]::LoadWithPartialName("System.Web") | out-null 
 
 $key = Get-AzEventHubKey -ResourceGroupName $rgName -NamespaceName $hubsName -AuthorizationRuleName "hubswriter"

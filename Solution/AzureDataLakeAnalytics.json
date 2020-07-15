@@ -5,7 +5,7 @@
         "annotations": ["adla","usql"],
         "type": "AzureDataLakeAnalytics",
         "typeProperties": {
-            "accountName": "eastus2jonestowndev",
+            "accountName": "eastus2jonesdev",
             "servicePrincipalId": "9999999c-904b-4948-abb6-2222222ca836",
             "servicePrincipalKey": {
                 "type": "AzureKeyVaultSecret",
@@ -13,11 +13,11 @@
                     "referenceName": "AzureKeyVault",
                     "type": "LinkedServiceReference"
                 },
-                "secretName": "eastus2-jonestown-dev-adf-key"
+                "secretName": "eastus2-jones-dev-adf-key"
             },
             "tenant": "ffffffff-812a-43cf-b020-777777752901",
             "subscriptionId": "fdffffff-7061-4721-abbc-bbbbbbbc3d5c",
-            "resourceGroupName": "eastus2-jonestown-dev"
+            "resourceGroupName": "eastus2-jones-dev"
         }
     }
 }

@@ -5,8 +5,8 @@
             "type": "Microsoft.ServiceBus/EventHub", 
             "properties": {
                 "eventHubName": "biometricstats", 
-                "serviceBusNamespace": "eastus2-jonestown-dev-hubs", 
-                "sharedAccessPolicyName": "RootManageSharedAccessKey", 
+                "serviceBusNamespace": "eastus2-jones-dev-hubs", 
+                "sharedAccessPolicyName": "hubsreader", 
                 "sharedAccessPolicyKey": "==KEY==", 
                 "consumerGroupName": "$Default" 
                 }

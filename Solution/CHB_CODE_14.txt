@@ -1,0 +1,4 @@
+# Subscription and Account
+Get-AzSubscription
+# Data Factory Service Principal
+Get-AzADServicePrincipal -DisplayName ($adfName + "-" + "id")

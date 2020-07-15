@@ -5,14 +5,14 @@
         "annotations": [],
         "type": "AzureSqlDatabase",
         "typeProperties": {
-            "connectionString": "Data Source=eastus2-jonestown-dev-sql.database.windows.net;Initial Catalog=eastus2-jonestown-dev-sql-stats;User ID=remoteuser",
+            "connectionString": "Data Source=eastus2-jones-dev-sql.database.windows.net;Initial Catalog=eastus2-jones-dev-sql-stats;User ID=remoteuser",
             "password": {
                 "type": "AzureKeyVaultSecret",
                 "store": {
                     "referenceName": "AzureKeyVault",
                     "type": "LinkedServiceReference"
                 },
-                "secretName": "eastus2-jonestown-dev-sql-stats"
+                "secretName": "eastus2-jones-dev-sql-stats"
             }
         }
     }

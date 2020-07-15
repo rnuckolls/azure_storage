@@ -1,6 +1,5 @@
 # Add Key Vault Linkedservice
-cd adf
-Set-AzDataFactoryV2LinkedService -ResourceGroupName $rgName -DataFactoryName $adfName -Name "AzureKeyVault" -DefinitionFile "./AzureKeyVault.json"
+cd adf -ErrorAction SilentlyContinue
 # Add Data lake Linkedservice
 Set-AzDataFactoryV2LinkedService -ResourceGroupName $rgName -DataFactoryName $adfName -Name "AzureDataLake" -DefinitionFile "./AzureDataLake.json"
 # Add Data Lake Analytics Linkedservice
@@ -17,5 +16,5 @@ Set-AzDataFactoryV2Dataset -ResourceGroupName $rgName -DataFactoryName $adfName 
 Set-AzDataFactoryV2Pipeline -ResourceGroupName $rgName -DataFactoryName $adfName -Name "Pipeline" -File "./Pipeline.json"
 
 # Add trigger
-Set-AzDataFactoryV2Trigger -ResourceGroupName $rgName -DataFactoryName $adfName -Name "Trigger" -File "./Pipeline.json"
+Set-AzDataFactoryV2Trigger -ResourceGroupName $rgName -DataFactoryName $adfName -Name "Trigger" -File "./Trigger.json"
 Start-AzDataFactoryV2Trigger -ResourceGroupName $rgName -DataFactoryName $adfName -Name "Trigger"
