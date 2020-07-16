@@ -14,7 +14,6 @@ USE DATABASE Players;
     USING Extractors.Csv(skipFirstNRows: 1);
 
 INSERT INTO SensorData
-(Id,Player,Node,NodeType,NodeValue,EventTime,
-<linearrow/>PartitionId,EventEnqueuedUtcTime,EventProcessedUtcTime)
+(Id,Player,Node,NodeType,NodeValue,EventTime,PartitionId,EventEnqueuedUtcTime,EventProcessedUtcTime)
 ON INTEGRITY VIOLATION MOVE TO PARTITION ("playerx")
 SELECT * FROM sensors;

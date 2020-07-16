@@ -1,4 +1,1 @@
-Set-AzDataFactoryV2Pipeline -ResourceGroupName "ade-dev-eastus2" 
-<linearrow />-Name "pipeline2" 
-<linearrow />-DataFactoryName "ade-dev-eastus2-adf" 
-<linearrow />-File "~/adf/pipeline2.json"
+Set-AzDataFactoryV2Pipeline -ResourceGroupName "ade-dev-eastus2" -Name "pipeline2" -DataFactoryName "ade-dev-eastus2-adf" -File "~/adf/pipeline2.json"

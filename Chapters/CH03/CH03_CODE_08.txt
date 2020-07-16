@@ -1,19 +1,14 @@
-$account = Get-AzStorageAccount 
-<linearrow />-ResourceGroupName "ade-dev-eastus2" 
-<linearrow />-AccountName "adedeveastus2"
-$queue = Get-AzStorageQueue -Name "pitcherstats" 
-<linearrow />-Context $account.Context
+$account = Get-AzStorageAccount -ResourceGroupName "ade-dev-eastus2" -AccountName "adedeveastus2"
+$queue = Get-AzStorageQueue -Name "pitcherstats" -Context $account.Context
 
 $hasMessage = $TRUE
 while ($hasMessage)
 {
 $queueMessage = $queue.CloudQueue.GetMessageAsync()
-if ($queueMessage.Result -is
-<linearrow/>[Microsoft.Azure.Storage.Queue.CloudQueueMessage])
+if ($queueMessage.Result -is [Microsoft.Azure.Storage.Queue.CloudQueueMessage])
 {
 Write-Host $queueMessage.Result.AsString
-$queue.CloudQueue.DeleteMessageAsync
-<linearrow/>($queueMessage.Result.Id,$queueMessage.Result.popReceipt)
+$queue.CloudQueue.DeleteMessageAsync ($queueMessage.Result.Id,$queueMessage.Result.popReceipt)
 $queueMessage = $null
 }
 else { $hasMessage = $FALSE }
