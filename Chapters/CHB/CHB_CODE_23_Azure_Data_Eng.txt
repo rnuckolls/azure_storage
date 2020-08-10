@@ -1,0 +1,44 @@
+# Write data to Event Hubs
+[Reflection.Assembly]::LoadWithPartialName("System.Web") | out-null 
+
+$key = Get-AzEventHubKey -ResourceGroupName $rgName -NamespaceName $hubsName -AuthorizationRuleName "hubswriter"
+$URI= $hubsName + ".servicebus.windows.net/" + $project
+
+$Expires=([DateTimeOffset]::Now.ToUnixTimeSeconds())+3600 
+$SignatureString=[System.Web.HttpUtility]::UrlEncode($URI)+ "`n" + [string]$Expires 
+$HMAC = New-Object System.Security.Cryptography.HMACSHA256
+$HMAC.key = [Text.Encoding]::ASCII.GetBytes($key.PrimaryKey) 
+$Signature = $HMAC.ComputeHash([Text.Encoding]::ASCII.GetBytes($SignatureString)) 
+$Signature = [Convert]::ToBase64String($Signature) 
+$SASToken = "SharedAccessSignature sr=" + [System.Web.HttpUtility]::UrlEncode($URI) + "&sig=" + [System.Web.HttpUtility]::UrlEncode($Signature) + "&se=" + $Expires + "&skn=" + $key.KeyName 
+
+$endpoint = "https://" + $hubsName + ".servicebus.windows.net/" + $project + "/messages" + "?timeout=60&api-version=2014-01"
+
+$headers = New-Object "System.Collections.Generic.Dictionary[[String],[String]]"
+$headers.Add("Authorization", $SASToken)
+$headers.Add("Content-Type", "application/atom+xml;type=entry;charset=utf-8")
+$headers.Add("Host", ($hubsName + ".servicebus.windows.net"))
+
+for($i = 0; $i -lt 14400; $i++)
+{
+$player = switch (Get-Random -Minimum 1 -Maximum 4) {
+  1 {"abera101"; break}
+  2 {"jjone101"; break}
+  3 {"ksmit102"; break}
+}
+$node = GET-Random -Minimum 1 -Maximum 40
+$val = Get-Random -Minimum 0 -Maximum 254
+$eventDate = (Get-Date).ToUniversalTime().ToString("o")
+
+#Construct body using Hashtable
+$htbody = @{ 
+    Id=(New-Guid).Guid 
+    Player= $player
+    Node= $node
+    NodeValue= $val
+    EventTime= $eventDate
+  }
+$body = ConvertTo-Json $htbody
+
+Invoke-WebRequest -Uri $endpoint -Method POST -Body $body -Headers $headers
+}

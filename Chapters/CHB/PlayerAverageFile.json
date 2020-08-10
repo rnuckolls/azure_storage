@@ -1,0 +1,40 @@
+{
+    "name": "PlayerAverageFile",
+    "properties": {
+        "linkedServiceName": {
+            "referenceName": "AzureDataLake",
+            "type": "LinkedServiceReference"
+        },
+        "annotations": [],
+        "type": "DelimitedText",
+        "typeProperties": {
+            "location": {
+                "type": "AzureDataLakeStoreLocation",
+                "fileName": "daily_value_avg.csv",
+                "folderPath": "Curated/biometricstats/v1"
+            },
+            "columnDelimiter": ",",
+            "escapeChar": "\\",
+            "firstRowAsHeader": true,
+            "quoteChar": "\""
+        },
+        "schema": [
+            {
+                "name": "Player",
+                "type": "String"
+            },
+            {
+                "name": "Node",
+                "type": "String"
+            },
+            {
+                "name": "AvgDate",
+                "type": "String"
+            },
+            {
+                "name": "Average",
+                "type": "String"
+            }
+        ]
+    }
+}

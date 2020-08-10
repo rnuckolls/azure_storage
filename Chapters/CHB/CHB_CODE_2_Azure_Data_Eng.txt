@@ -1,0 +1,119 @@
+# Create services
+Get-AzResourceGroup -Name $rgName -ErrorVariable notPresent -ErrorAction SilentlyContinue
+if ($notPresent)
+{
+New-AzResourceGroup $rgName -Location $regionName
+}
+
+# Storage Account
+Get-AzStorageAccount -Name ($storeName) -ResourceGroupName $rgName `
+-ErrorVariable notPresent -ErrorAction SilentlyContinue
+if ($notPresent)
+{
+New-AzStorageAccount -ResourceGroupName $rgName `
+-AccountName $storeName -SkuName Standard_LRS -Location $regionName `
+-EnableHttpsTrafficOnly 1 -Kind "StorageV2"
+
+$accountObject = Get-AzStorageAccount -ResourceGroupName $rgName `
+-AccountName $storeName 
+New-AzRmStorageContainer -StorageAccount $accountObject `
+-ContainerName $project -PublicAccess None
+}
+
+# Data Lake store
+if (!(Test-AzDataLakeStoreAccount -Name $storeName))
+{
+New-AzDataLakeStoreAccount -Name $storeName -Location $regionName `
+-ResourceGroup $rgName -Encryption ServiceManaged
+}
+
+# Event Hubs
+if ((Test-AzEventHubName -Namespace $hubsName).NameAvailable)
+{
+New-AzEventHubNamespace -ResourceGroupName $rgName `
+-NamespaceName $hubsName -Location $regionName `
+-SkuName "Standard" -SkuCapacity 1 
+New-AzEventHub -ResourceGroupName $rgName `
+-NamespaceName $hubsName -Name $project `
+-MessageRetentionInDays 1 -PartitionCount 2 
+New-AzEventHubAuthorizationRule -ResourceGroupName $rgName `
+-NamespaceName $hubsName -AuthorizationRuleName "hubsreader" `
+-Rights @("Listen")
+New-AzEventHubAuthorizationRule -ResourceGroupName $rgName `
+-NamespaceName $hubsName -AuthorizationRuleName "hubswriter" `
+-Rights @("Send")
+}
+
+# Stream Analytics
+Get-AzStreamAnalyticsFunction -JobName $streamName -ResourceGroupName $rgName `
+-ErrorVariable notPresent -ErrorAction SilentlyContinue
+if ($notPresent)
+{
+mkdir asa
+cd asa
+$jobConfig = @{}
+$jobProp = @{}
+$jobSku = @{name="standard"}
+$jobProp.Add("sku",$jobSku)
+$jobProp.Add("eventsOutOfOrderPolicy","adjust")
+$jobProp.Add("eventsOutOfOrderMaxDelayInSeconds",11)
+$jobProp.Add("compatibilityLevel",1.1)
+$jobProp.Add("outputErrorPolicy","Stop")
+$jobProp.Add("eventsLateArrivalMaxDelayInSeconds",6)
+$jobConfig.Add("properties",$jobProp)
+$jobConfig.Add("location","EastUS2")
+$jobConfig | ConvertTo-Json -Depth 10 | Out-File -FilePath ./streamingjob.json
+New-AzStreamAnalyticsJob -ResourceGroupName $rgName `
+-Name $streamName -File ./streamingjob.json 
+cd ..
+}
+
+# Data Lake Analytics
+if (!(Test-AzDataLakeAnalyticsAccount -Name $storeName))
+{
+New-AzDataLakeAnalyticsAccount -ResourceGroupName $rgName -Name $storeName `
+-Location $regionName -DefaultDataLakeStore $storeName -Tier "Consumption" 
+}
+
+# SQL Database
+Get-AzSqlServer -Name $sqlName -ResourceGroupName $rgName `
+-ErrorVariable notPresent -ErrorAction SilentlyContinue
+if ($notPresent)
+{
+# Enter new SQL Admin credentials
+New-AzSqlServer -ResourceGroupName $rgName -Location $regionName `
+-ServerName $sqlName -SqlAdministratorCredentials (Get-Credential -Message "Enter new SQL Admin credentials") 
+}
+
+Get-AzSqlDatabase -Name $dbName -ResourceGroupName `
+$rgName -ServerName $sqlName -ErrorVariable notPresent -ErrorAction SilentlyContinue
+if ($notPresent)
+{
+New-AzSqlDatabase -ResourceGroupName $rgName -ServerName $sqlName `
+-DatabaseName $dbName -Edition "Basic" 
+}
+
+# Key Vault
+if (-not (Get-AzKeyVault -Name $vaultName -ResourceGroupName $rgName))
+{
+New-AzKeyVault -Name $vaultName -ResourceGroupName $rgName `
+-Location $regionName -EnablePurgeProtection -ErrorVariable deleted
+}
+if ($deleted)
+{
+Undo-AzKeyVaultRemoval -VaultName $vaultName -ResourceGroupName $rgName `
+-Location $region
+}
+
+Get-AzDataFactoryV2 -Name $adfName -ResourceGroupName `
+$rgName -ErrorVariable notPresent -ErrorAction SilentlyContinue
+if ($notPresent)
+{
+New-AzDataFactoryV2 -Name $adfName -Location $regionName `
+-ResourceGroupName $rgName
+}
+
+# Verify creation of Resource Group, Storage account, 
+# Data Lake store, Event Hubs, Stream Analytics,
+# Data Lake Analytics, SQL Database, Key Vault, 
+# and Data Factory resources. 

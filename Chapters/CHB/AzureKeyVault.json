@@ -1,0 +1,10 @@
+{
+    "name": "AzureKeyVault",
+    "properties": {
+        "annotations": [],
+        "type": "AzureKeyVault",
+        "typeProperties": {
+            "baseUrl": "https://eastus2-jones-dev-key.vault.azure.net/"
+        }
+    }
+}

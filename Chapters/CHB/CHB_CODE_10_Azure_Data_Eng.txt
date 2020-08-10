@@ -1,0 +1,19 @@
+# Stream Analytics
+cd asa
+# Create Input
+New-AzStreamAnalyticsInput -ResourceGroupName $rgName `
+-JobName $streamName -Name "HubsInputBiometrics" `
+-File "./HubsInputBiometrics.json"
+
+# Create output
+New-AzStreamAnalyticsOutput -ResourceGroupName $rgName `
+-JobName $streamName -Name "BlobOutputPitcher" `
+-File "./BlobOutputPitcher.json" 
+
+# Create query
+New-AzStreamAnalyticsTransformation -ResourceGroupName $rgName `
+-JobName $streamName -Name "Transformation" `
+-File "./Transforms.json" -Force 
+
+Start-AzStreamAnalyticsJob -ResourceGroupName $rgName `
+-Name $streamName -OutputStartMode "JobStartTime"

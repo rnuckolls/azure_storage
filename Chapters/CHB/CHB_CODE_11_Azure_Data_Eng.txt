@@ -1,0 +1,34 @@
+# SQL Server
+New-AzSqlServerFirewallRule -ResourceGroupName $rgName `
+-ServerName $sqlName -AllowAllAzureIPs 
+New-AzSqlServerFirewallRule -ResourceGroupName $rgName `
+-ServerName $sqlName -FirewallRuleName "Onpremises" `
+-StartIpAddress $ipAddress -EndIpAddress $ipAddress
+
+# Add user and login
+$sqlAddress = ("tcp:" + $sqlName + ".database.windows.net" )
+# Provide SQL Server admin and password
+$sqlCred = Credential (Get-Credential -Message "Enter SQL Admin credentials")
+$YOURPASSWORD = "MMMMMMMMMm.1"
+Invoke-Sqlcmd `
+-ServerInstance $sqlAddress -Database "master" -Credential $sqlCred `
+-Query ("IF NOT EXISTS(SELECT sid FROM sys.sql_logins WHERE name = 'remoteuser') `
+BEGIN CREATE LOGIN remoteuser WITH PASSWORD = '" + $YOURPASSWORD + "'; END")
+
+Invoke-Sqlcmd -ServerInstance $sqlAddress `
+-Database $dbName -Credential $sqlCred `
+-Query "IF NOT EXISTS(SELECT uid FROM sys.sysusers WHERE name = 'remoteuser') `
+BEGIN CREATE USER remoteuser FOR LOGIN remoteuser; END"
+Invoke-Sqlcmd -ServerInstance $sqlAddress `
+-Database $dbName -Credential $sqlCred `
+-Query "ALTER ROLE db_datareader ADD MEMBER remoteuser;" 
+Invoke-Sqlcmd -ServerInstance $sqlAddress `
+-Database $dbName -Credential $sqlCred `
+-Query "ALTER ROLE db_datawriter ADD MEMBER remoteuser;" 
+
+# Add data table
+Invoke-Sqlcmd -ServerInstance $sqlAddress `
+-Database $dbName -Credential $sqlCred `
+-Query "DROP TABLE IF EXISTS DailyAverages; `
+CREATE TABLE DailyAverages (Player nvarchar(50), Node int, `
+AverageDate DateTime, AverageValue decimal(18,9));"

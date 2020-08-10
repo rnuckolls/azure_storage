@@ -1,0 +1,2 @@
+$key = (Get-AzStorageAccountKey -ResourceGroupName $rgName `
+-Name $storeName).Value | Select-Object -First 1

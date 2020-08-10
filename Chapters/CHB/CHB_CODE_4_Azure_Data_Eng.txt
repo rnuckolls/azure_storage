@@ -1,0 +1,34 @@
+DECLARE EXTERNAL @year string = DateTime.Today.AddDays(-1).Year.ToString("#0000");
+DECLARE EXTERNAL @month string = DateTime.Today.AddDays(-1).Month.ToString("#00");
+DECLARE EXTERNAL @day string = DateTime.Today.AddDays(-1).Day.ToString("#00");
+DECLARE EXTERNAL @in string = string.Format("/Staging/biometricstats/{0}-{1}-{2}{3}.csv", @year, @month, @day, "{*}");
+
+@Players =
+    EXTRACT
+        Id Guid,
+        NodeValue decimal,
+        Player string,
+        Node int,
+        EventTime DateTime,
+        PartitionId int,
+        EventEnqueuedUtcTime DateTime,
+        EventProcessedUtcTime DateTime
+    FROM @in
+    USING Extractors.Csv(
+    skipFirstNRows: 1
+    );
+
+@DailyAgg =
+    SELECT
+        Player,
+        Node,
+        EventTime.ToString("d") AS AvgDate,
+        AVG(NodeValue) AS Average
+    FROM @Players
+    GROUP BY Player, Node, EventTime.ToString("d");
+
+DECLARE EXTERNAL @out string = "/Curated/biometricstats/v1/daily_value_avg.csv";
+
+OUTPUT @DailyAgg
+    TO @out
+    USING Outputters.Csv(outputHeader: true);

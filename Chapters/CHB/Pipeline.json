@@ -1,0 +1,139 @@
+{
+    "name": "Pipeline",
+    "properties": {
+        "activities": [
+            {
+                "name": "DailyAggregate",
+                "type": "DataLakeAnalyticsU-SQL",
+                "dependsOn": [],
+                "policy": {
+                    "timeout": "0.01:00:00",
+                    "retry": 1,
+                    "retryIntervalInSeconds": 30,
+                    "secureOutput": false,
+                    "secureInput": false
+                },
+                "userProperties": [],
+                "typeProperties": {
+                    "scriptPath": "Code/Usql/DailyAggregate.usql",
+                    "scriptLinkedService": {
+                        "referenceName": "AzureDataLake",
+                        "type": "LinkedServiceReference"
+                    }
+                },
+                "linkedServiceName": {
+                    "referenceName": "AzureDataLakeAnalytics",
+                    "type": "LinkedServiceReference"
+                }
+            },
+            {
+                "name": "Import",
+                "type": "Copy",
+                "dependsOn": [
+                    {
+                        "activity": "DailyAggregate",
+                        "dependencyConditions": [
+                            "Succeeded"
+                        ]
+                    }
+                ],
+                "policy": {
+                    "timeout": "0.01:00:00",
+                    "retry": 0,
+                    "retryIntervalInSeconds": 30,
+                    "secureOutput": false,
+                    "secureInput": false
+                },
+                "userProperties": [],
+                "typeProperties": {
+                    "source": {
+                        "type": "DelimitedTextSource",
+                        "storeSettings": {
+                            "type": "AzureDataLakeStoreReadSettings",
+                            "recursive": true
+                        },
+                        "formatSettings": {
+                            "type": "DelimitedTextReadSettings"
+                        }
+                    },
+                    "sink": {
+                        "type": "AzureSqlSink"
+                    },
+                    "enableStaging": false,
+                    "enableSkipIncompatibleRow": false,
+                    "translator": {
+                        "type": "TabularTranslator",
+                        "mappings": [
+                            {
+                                "source": {
+                                    "name": "Player",
+                                    "type": "String",
+                                    "physicalType": "String"
+                                },
+                                "sink": {
+                                    "name": "Player",
+                                    "type": "String",
+                                    "physicalType": "nvarchar"
+                                }
+                            },
+                            {
+                                "source": {
+                                    "name": "Node",
+                                    "type": "String",
+                                    "physicalType": "String"
+                                },
+                                "sink": {
+                                    "name": "Node",
+                                    "type": "Int32",
+                                    "physicalType": "int"
+                                }
+                            },
+                            {
+                                "source": {
+                                    "name": "AvgDate",
+                                    "type": "DateTime",
+                                    "physicalType": "String"
+                                },
+                                "sink": {
+                                    "name": "AverageDate",
+                                    "type": "DateTime",
+                                    "physicalType": "datetime"
+                                }
+                            },
+                            {
+                                "source": {
+                                    "name": "Average",
+                                    "type": "Decimal",
+                                    "physicalType": "String"
+                                },
+                                "sink": {
+                                    "name": "AverageValue",
+                                    "type": "Decimal",
+                                    "physicalType": "decimal"
+                                }
+                            }
+                        ],
+                        "typeConversion": true,
+                        "typeConversionSettings": {
+                            "allowDataTruncation": true,
+                            "treatBooleanAsNumber": false
+                        }
+                    }
+                },
+                "inputs": [
+                    {
+                        "referenceName": "PlayerAverageFile",
+                        "type": "DatasetReference"
+                    }
+                ],
+                "outputs": [
+                    {
+                        "referenceName": "PlayerAverageTable",
+                        "type": "DatasetReference"
+                    }
+                ]
+            }
+        ],
+        "annotations": []
+    }
+}

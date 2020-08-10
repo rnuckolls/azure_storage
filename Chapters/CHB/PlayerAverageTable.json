@@ -1,0 +1,38 @@
+{
+    "name": "PlayerAverageTable",
+    "properties": {
+        "linkedServiceName": {
+            "referenceName": "AzureSQLDatabase",
+            "type": "LinkedServiceReference"
+        },
+        "annotations": [],
+        "type": "AzureSqlTable",
+        "schema": [
+            {
+                "name": "Player",
+                "type": "nvarchar"
+            },
+            {
+                "name": "Node",
+                "type": "int",
+                "precision": 10
+            },
+            {
+                "name": "AverageDate",
+                "type": "datetime",
+                "precision": 23,
+                "scale": 3
+            },
+            {
+                "name": "AverageValue",
+                "type": "decimal",
+                "precision": 18,
+                "scale": 9
+            }
+        ],
+        "typeProperties": {
+            "schema": "dbo",
+            "table": "DailyAverages"
+        }
+    }
+}
