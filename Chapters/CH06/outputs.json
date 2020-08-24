@@ -5,7 +5,7 @@
         "properties":{
             "server":"tcp:ade-dev-eastus2-sql.database.windows.net", 
             "database":"Biometricstats", 
-            "table":"raw", 
+            "table":"Biometricstats", 
             "user":"user@sampleserver", 
             "password":"****************" 
             }
