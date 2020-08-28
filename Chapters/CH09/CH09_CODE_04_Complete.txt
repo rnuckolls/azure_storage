@@ -1,0 +1,144 @@
+USE DATABASE master;
+
+DROP ASSEMBLY IF EXISTS [ImageCommon];
+CREATE ASSEMBLY IF NOT EXISTS [ImageCommon]
+FROM @"/Code/Assemblies/master/cognition/v1/vision/common/ImageIO.dll"
+WITH ADDITIONAL_FILES = 
+     (
+         @"/Code/Assemblies/master/cognition/v1/vision/common/ImageCommon.dll",
+         @"/Code/Assemblies/master/cognition/v1/vision/common/FaceSdkManagedWrapper.dll",
+         @"/Code/Assemblies/master/cognition/v1/vision/common/libiomp5md.dll",
+         @"/Code/Assemblies/master/cognition/v1/vision/common/DetectionJDA.mdl",
+         @"/Code/Assemblies/master/cognition/v1/vision/common/version.cog.imgcommon"
+     );
+
+DROP ASSEMBLY IF EXISTS [ImageOcr];
+CREATE ASSEMBLY IF NOT EXISTS [ImageOcr]
+FROM @"/Code/Assemblies/master/cognition/v1/vision/ocr/ImageOCR.dll"
+WITH ADDITIONAL_FILES =
+     (
+         @"/Code/Assemblies/master/cognition/v1/vision/ocr/Microsoft.Ocr.dll",
+         @"/Code/Assemblies/master/cognition/v1/vision/ocr/Microsoft.Ocr.xml",
+         @"/Code/Assemblies/master/cognition/v1/vision/ocr/MsOcrRes.orp",
+         @"/Code/Assemblies/master/cognition/v1/vision/ocr/version.cog.ocr"
+     );
+
+DROP ASSEMBLY IF EXISTS [FaceSdk];
+CREATE ASSEMBLY IF NOT EXISTS [FaceSdk]
+FROM @"/Code/Assemblies/master/cognition/v1/vision/face/FaceSdkCNN.dll"
+WITH ADDITIONAL_FILES =
+     (
+         @"/Code/Assemblies/master/cognition/v1/vision/face/AgeCNN.mdl",
+         @"/Code/Assemblies/master/cognition/v1/vision/face/DetectionDNN.mdl",
+         @"/Code/Assemblies/master/cognition/v1/vision/face/FacialHairCnn.mdl",
+         @"/Code/Assemblies/master/cognition/v1/vision/face/GenderCnn.mdl",
+         @"/Code/Assemblies/master/cognition/v1/vision/face/GlassesCnn.mdl",
+         @"/Code/Assemblies/master/cognition/v1/vision/face/Pose.mdl",
+         @"/Code/Assemblies/master/cognition/v1/vision/face/RecognitionCNN.mdl",
+         @"/Code/Assemblies/master/cognition/v1/vision/face/version.cog.face"
+     );
+
+DROP ASSEMBLY IF EXISTS [ImageTagging];
+CREATE ASSEMBLY IF NOT EXISTS [ImageTagging]
+FROM @"/Code/Assemblies/master/cognition/v1/vision/tagging/ImageTagging.dll"
+WITH ADDITIONAL_FILES =
+     (
+         @"/Code/Assemblies/master/cognition/v1/vision/tagging/caffe.managed.dll",
+         @"/Code/Assemblies/master/cognition/v1/vision/tagging/category_threshold_coco.txt",
+         @"/Code/Assemblies/master/cognition/v1/vision/tagging/category_threshold_imagenet.txt",
+         @"/Code/Assemblies/master/cognition/v1/vision/tagging/classification.bin",
+         @"/Code/Assemblies/master/cognition/v1/vision/tagging/config_classification.txt",
+         @"/Code/Assemblies/master/cognition/v1/vision/tagging/detection_GN_person_256.bin",
+         @"/Code/Assemblies/master/cognition/v1/vision/tagging/detection_label.txt",
+         @"/Code/Assemblies/master/cognition/v1/vision/tagging/EntityRecognition.Models.dll",
+         @"/Code/Assemblies/master/cognition/v1/vision/tagging/feature_map.bin",
+         @"/Code/Assemblies/master/cognition/v1/vision/tagging/hint_default.txt",
+         @"/Code/Assemblies/master/cognition/v1/vision/tagging/ImageRecognitionLib.dll",
+         @"/Code/Assemblies/master/cognition/v1/vision/tagging/ImageRecognitionSDK.dll",
+         @"/Code/Assemblies/master/cognition/v1/vision/tagging/ImageRecognitionWrapper.dll",
+         @"/Code/Assemblies/master/cognition/v1/vision/tagging/ImgCapLib.dll",
+         @"/Code/Assemblies/master/cognition/v1/vision/tagging/LBLM.dll",
+         @"/Code/Assemblies/master/cognition/v1/vision/tagging/libglog.dll",
+         @"/Code/Assemblies/master/cognition/v1/vision/tagging/ManagedRecognitionSDK.Models.dll",
+         @"/Code/Assemblies/master/cognition/v1/vision/tagging/Utils.dll",
+         @"/Code/Assemblies/master/cognition/v1/vision/tagging/VisualRecognition.dll",
+         @"/Code/Assemblies/master/cognition/v1/vision/tagging/version.cog.imgtag"
+     );
+
+DROP ASSEMBLY IF EXISTS [ImageEmotion];
+CREATE ASSEMBLY IF NOT EXISTS [ImageEmotion]
+FROM @"/Code/Assemblies/master/cognition/v1/vision/emotion/EmotionAnalysis.dll"
+WITH ADDITIONAL_FILES =
+     (
+         @"/Code/Assemblies/master/cognition/v1/vision/emotion/emotion_model.txt",
+         @"/Code/Assemblies/master/cognition/v1/vision/emotion/EmotionRecognitionManagedWrapper.dll",
+         @"/Code/Assemblies/master/cognition/v1/vision/emotion/Microsoft.ProjectOxford.Emotion.dll",
+         @"/Code/Assemblies/master/cognition/v1/vision/emotion/mkl_avx.dll",
+         @"/Code/Assemblies/master/cognition/v1/vision/emotion/mkl_avx2.dll",
+         @"/Code/Assemblies/master/cognition/v1/vision/emotion/mkl_avx512.dll",
+         @"/Code/Assemblies/master/cognition/v1/vision/emotion/mkl_core.dll",
+         @"/Code/Assemblies/master/cognition/v1/vision/emotion/mkl_def.dll",
+         @"/Code/Assemblies/master/cognition/v1/vision/emotion/mkl_intel_thread.dll",
+         @"/Code/Assemblies/master/cognition/v1/vision/emotion/mkl_mc.dll",
+         @"/Code/Assemblies/master/cognition/v1/vision/emotion/mkl_mc3.dll",
+         @"/Code/Assemblies/master/cognition/v1/vision/emotion/mkl_msg.dll",
+         @"/Code/Assemblies/master/cognition/v1/vision/emotion/mkl_rt.dll",
+         @"/Code/Assemblies/master/cognition/v1/vision/emotion/mkl_sequential.dll",
+         @"/Code/Assemblies/master/cognition/v1/vision/emotion/mkl_tbb_thread.dll",
+         @"/Code/Assemblies/master/cognition/v1/vision/emotion/mkl_vml_avx.dll",
+         @"/Code/Assemblies/master/cognition/v1/vision/emotion/mkl_vml_avx2.dll",
+         @"/Code/Assemblies/master/cognition/v1/vision/emotion/mkl_vml_avx512.dll",
+         @"/Code/Assemblies/master/cognition/v1/vision/emotion/mkl_vml_cmpt.dll",
+         @"/Code/Assemblies/master/cognition/v1/vision/emotion/mkl_vml_def.dll",
+         @"/Code/Assemblies/master/cognition/v1/vision/emotion/mkl_vml_mc.dll",
+         @"/Code/Assemblies/master/cognition/v1/vision/emotion/mkl_vml_mc2.dll",
+         @"/Code/Assemblies/master/cognition/v1/vision/emotion/mkl_vml_mc3.dll",
+         @"/Code/Assemblies/master/cognition/v1/vision/emotion/version.cog.emotion"
+     );
+
+DROP ASSEMBLY IF EXISTS [TextKeyPhrase];
+CREATE ASSEMBLY IF NOT EXISTS [TextKeyPhrase]
+FROM @"/Code/Assemblies/master/cognition/v1/text/keyphrase/TextKeyPhrases.dll"
+WITH ADDITIONAL_FILES =
+     (
+         @"/Code/Assemblies/master/cognition/v1/text/keyphrase/KeyPhrasePreprocessor.en-us.mrr",
+         @"/Code/Assemblies/master/cognition/v1/text/keyphrase/Microsoft.NaturalLanguage.ExtractionPreprocessing.dll",
+         @"/Code/Assemblies/master/cognition/v1/text/keyphrase/Microsoft.NaturalLanguage.KeyPhraseExtractor.dll",
+         @"/Code/Assemblies/master/cognition/v1/text/keyphrase/Microsoft.NaturalLanguage.Runtime.Interop.dll",
+         @"/Code/Assemblies/master/cognition/v1/text/keyphrase/Microsoft.NaturalLanguage.Runtime.Managed.dll",
+         @"/Code/Assemblies/master/cognition/v1/text/keyphrase/Microsoft.NaturalLanguage.TextRank.dll",
+         @"/Code/Assemblies/master/cognition/v1/text/keyphrase/version.cog.keyphrase"
+     );
+
+DROP ASSEMBLY IF EXISTS [TextSentiment];
+CREATE ASSEMBLY IF NOT EXISTS [TextSentiment]
+FROM @"/Code/Assemblies/master/cognition/v1/text/sentiment/TextSentimentAnalysis.dll"
+WITH ADDITIONAL_FILES =
+     (
+         @"/Code/Assemblies/master/cognition/v1/text/sentiment/50mpaths2.txt",
+         @"/Code/Assemblies/master/cognition/v1/text/sentiment/emoticon.lex",
+         @"/Code/Assemblies/master/cognition/v1/text/sentiment/function_words.lex",
+         @"/Code/Assemblies/master/cognition/v1/text/sentiment/ML.Func.dll",
+         @"/Code/Assemblies/master/cognition/v1/text/sentiment/neg.lex.txt",
+         @"/Code/Assemblies/master/cognition/v1/text/sentiment/NLP.Base.dll",
+         @"/Code/Assemblies/master/cognition/v1/text/sentiment/NLP.Func.dll",
+         @"/Code/Assemblies/master/cognition/v1/text/sentiment/NLP.Twitter.dll",
+         @"/Code/Assemblies/master/cognition/v1/text/sentiment/NRC-Hashtag_bigrams-pmilexicon.txt",
+         @"/Code/Assemblies/master/cognition/v1/text/sentiment/NRC-Hashtag_unigrams-pmilexicon.txt",
+         @"/Code/Assemblies/master/cognition/v1/text/sentiment/pol.fv",
+         @"/Code/Assemblies/master/cognition/v1/text/sentiment/pol.lex",
+         @"/Code/Assemblies/master/cognition/v1/text/sentiment/pol.model",
+         @"/Code/Assemblies/master/cognition/v1/text/sentiment/pos.lex.txt",
+         @"/Code/Assemblies/master/cognition/v1/text/sentiment/S.Base.dll",
+         @"/Code/Assemblies/master/cognition/v1/text/sentiment/S.Core.dll",
+         @"/Code/Assemblies/master/cognition/v1/text/sentiment/sentiment.emd",
+         @"/Code/Assemblies/master/cognition/v1/text/sentiment/sentiment.lex",
+         @"/Code/Assemblies/master/cognition/v1/text/sentiment/Sentiment140_bigrams-pmilexicon.txt",
+         @"/Code/Assemblies/master/cognition/v1/text/sentiment/Sentiment140_unigrams-pmilexicon.txt",
+         @"/Code/Assemblies/master/cognition/v1/text/sentiment/sub.fv",
+         @"/Code/Assemblies/master/cognition/v1/text/sentiment/sub.lex",
+         @"/Code/Assemblies/master/cognition/v1/text/sentiment/sub.model",
+         @"/Code/Assemblies/master/cognition/v1/text/sentiment/twitter.word.40.cluster",
+         @"/Code/Assemblies/master/cognition/v1/text/sentiment/version.cog.sentiment"
+     );
+
